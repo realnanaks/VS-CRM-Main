@@ -193,11 +193,43 @@ const MOCK_COUNTRIES = [
     { code: 'JP', name: 'Japan', flag: '🇯🇵' }
 ];
 
+const MOCK_FEATURE_FLAGS = [
+    { id: 'feature_dashboard', name: 'Dashboard', description: 'Access to the main dashboard.', enabledCountries: ['Global'] },
+    { id: 'feature_projects', name: 'Projects', description: 'Project management module.', enabledCountries: ['Global'] },
+    { id: 'feature_contacts', name: 'Contacts', description: 'CRM contacts management.', enabledCountries: ['Global'] },
+    { id: 'feature_campaigns', name: 'Campaigns', description: 'Marketing campaigns module.', enabledCountries: ['US', 'UK'] },
+    { id: 'feature_events', name: 'Events', description: 'Event management module.', enabledCountries: ['Global'] },
+    { id: 'feature_promotions', name: 'Promotions', description: 'Promotions and offers.', enabledCountries: ['Global'] },
+    { id: 'feature_tasks', name: 'Tasks', description: 'Task management.', enabledCountries: ['Global'] },
+    { id: 'feature_advisor', name: 'Advisor', description: 'AI Advisor.', enabledCountries: ['US'] },
+    { id: 'feature_automation', name: 'Automation', description: 'Workflow automation.', enabledCountries: ['Global'] },
+    { id: 'feature_calendar', name: 'Calendar', description: 'Calendar view.', enabledCountries: ['Global'] },
+    { id: 'feature_assets', name: 'Assets', description: 'Digital asset management.', enabledCountries: ['Global'] },
+    { id: 'feature_social', name: 'Social', description: 'Social media management.', enabledCountries: ['Global'] },
+    { id: 'feature_forms', name: 'Forms', description: 'Form builder and submissions.', enabledCountries: ['Global'] },
+    { id: 'feature_deals', name: 'Deals', description: 'Sales pipeline and deals.', enabledCountries: ['Global'] },
+    { id: 'ff_beta_dashboard', name: 'Beta Dashboard', description: 'New dashboard layout with AI insights.', enabledCountries: ['US', 'UK'] },
+    { id: 'ff_dark_mode_v2', name: 'Dark Mode V2', description: 'Enhanced contrast dark mode.', enabledCountries: ['Global'] },
+    { id: 'ff_sms_campaigns', name: 'SMS Campaigns', description: 'Ability to send SMS campaigns.', enabledCountries: ['Global'] },
+    { id: 'feature_infographics', name: 'Infographics', description: 'AI Infographics Generator.', enabledCountries: ['Global'] }
+];
+
+const MOCK_SEGMENTS = [
+    { id: '1', name: 'New Subscribers', count: 120 },
+    { id: '2', name: 'VIP Customers', count: 45 },
+    { id: '3', name: 'Churn Risk', count: 12 },
+    { id: '4', name: 'Global Users', count: 340 },
+    { id: '5', name: 'Tech Enthusiasts', count: 89 }
+];
+
 const initialDB = {
     contacts: MOCK_CONTACTS,
     campaigns: MOCK_CAMPAIGNS,
     tasks: MOCK_TASKS,
     projects: MOCK_PROJECTS,
+    events: MOCK_EVENTS,
+    featureFlags: MOCK_FEATURE_FLAGS,
+    segments: MOCK_SEGMENTS,
     events: MOCK_EVENTS,
     promotions: MOCK_PROMOTIONS,
     assets: MOCK_ASSETS,
@@ -210,6 +242,7 @@ const initialDB = {
     logs: MOCK_LOGS,
     users: MOCK_USERS,
     countries: MOCK_COUNTRIES,
+    featureFlags: MOCK_FEATURE_FLAGS,
     currentUserId: 'u1',
     theme: 'indigo'
 };

@@ -113,7 +113,7 @@
     {
       "id": "1",
       "title": "Review Q4 Marketing Plan",
-      "dueDate": "2025-11-30",
+      "dueDate": "2025-12-03",
       "priority": "High",
       "completed": false,
       "country": "US"
@@ -121,7 +121,7 @@
     {
       "id": "2",
       "title": "Approve new banner ads",
-      "dueDate": "2025-12-01",
+      "dueDate": "2025-12-04",
       "priority": "Medium",
       "completed": false,
       "country": "Global"
@@ -129,7 +129,7 @@
     {
       "id": "3",
       "title": "Send invite for webinar",
-      "dueDate": "2025-11-29",
+      "dueDate": "2025-12-02",
       "priority": "High",
       "completed": true,
       "country": "UK"
@@ -217,61 +217,6 @@
   ],
   "events": [
     {
-      "id": "1764543566524",
-      "name": "Tidal Rave 2026",
-      "date": "2025-12-07",
-      "location": "Labadi",
-      "attendees": 0,
-      "capacity": 106000,
-      "status": "Active",
-      "description": "We dey jam",
-      "banner": "https://picsum.photos/800/400?random=1764543566524",
-      "country": "US",
-      "ticketTiers": [
-        {
-          "id": "tier-1764543566523-0",
-          "name": "General Admission",
-          "price": 300,
-          "capacity": 100000,
-          "sold": 0
-        },
-        {
-          "id": "tier-1764543566523-1",
-          "name": "VIP",
-          "price": 700,
-          "capacity": 5000,
-          "sold": 0
-        },
-        {
-          "id": "tier-1764543566523-2",
-          "name": "VVIP",
-          "price": 1000,
-          "capacity": 1000,
-          "sold": 0
-        }
-      ],
-      "performances": [
-        {
-          "id": "perf-1764543566524-0",
-          "artistName": "Shatta Wale",
-          "timeSlot": "20:00",
-          "avgDecibels": 73,
-          "peakDecibels": 95,
-          "crowdSizeEstimate": 0,
-          "artistImage": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ6YcditRzH_PWz4WyKsMH3DtdYGYvaR22M8LgldpY65jSqUlAOhSeyrm36yLnJascNXZJb9J-dup2p14kNBd4c1FIKgQC4T1NR7TfPgMk&s=10"
-        },
-        {
-          "id": "perf-1764543566524-1",
-          "artistName": "R2bees",
-          "timeSlot": "21:00",
-          "avgDecibels": 66,
-          "peakDecibels": 91,
-          "crowdSizeEstimate": 0
-        }
-      ],
-      "revenue": 0
-    },
-    {
       "id": "tr-2025",
       "name": "Tidal Rave 2025",
       "date": "2025-07-26",
@@ -304,9 +249,9 @@
           "id": "p1",
           "artistName": "Sarkodie",
           "timeSlot": "22:00 - 23:00",
-          "avgDecibels": 65,
-          "peakDecibels": 69,
-          "crowdSizeEstimate": 18000
+          "avgDecibels": 0,
+          "peakDecibels": 0,
+          "crowdSizeEstimate": 0
         },
         {
           "id": "p2",
@@ -878,46 +823,6 @@
       ],
       "password": "password123",
       "hasCompletedOnboarding": true
-    },
-    {
-      "id": "u1764540330922",
-      "name": "Nana Kwasi Sarpong",
-      "email": "sarpongnanakwasi@gmail.com",
-      "password": "school",
-      "role": "Country Manager",
-      "avatar": "https://ui-avatars.com/api/?name=Nana%20Kwasi%20Sarpong&background=random&color=fff",
-      "assignedCountries": [
-        "Global"
-      ],
-      "status": "Active",
-      "hasCompletedOnboarding": true
-    },
-    {
-      "id": "u1764540397110",
-      "avatar": "https://ui-avatars.com/api/?name=Nana%20Kwasi%20Sarpong&background=random&color=fff",
-      "status": "Active",
-      "activationToken": null,
-      "hasCompletedOnboarding": true,
-      "name": "Nana Kwasi Sarpong",
-      "email": "sarpongnanakwasike@gmail.com",
-      "role": "Country Manager",
-      "assignedCountries": [
-        "GH"
-      ],
-      "password": "iloverhodaline12345"
-    },
-    {
-      "id": "u1764543022278",
-      "avatar": "https://ui-avatars.com/api/?name=Berryl&background=random&color=fff",
-      "status": "Pending",
-      "activationToken": "c9e1d52e-a0e9-46dc-b9ba-7237a0452d62",
-      "hasCompletedOnboarding": false,
-      "name": "Berryl",
-      "email": "beryl@echo.com",
-      "role": "Super Admin",
-      "assignedCountries": [
-        "Global"
-      ]
     }
   ],
   "countries": [
@@ -927,9 +832,9 @@
       "flag": "🌍"
     },
     {
-      "code": "GH",
-      "name": "Ghana",
-      "flag": "🇬🇭"
+      "code": "US",
+      "name": "United States",
+      "flag": "🇺🇸"
     },
     {
       "code": "UK",
@@ -950,6 +855,147 @@
       "code": "JP",
       "name": "Japan",
       "flag": "🇯🇵"
+    }
+  ],
+  "featureFlags": [
+    {
+      "id": "feature_dashboard",
+      "name": "Dashboard",
+      "description": "Access to the main dashboard.",
+      "enabledCountries": [
+        "Global"
+      ]
+    },
+    {
+      "id": "feature_projects",
+      "name": "Projects",
+      "description": "Project management module.",
+      "enabledCountries": [
+        "Global"
+      ]
+    },
+    {
+      "id": "feature_contacts",
+      "name": "Contacts",
+      "description": "CRM contacts management.",
+      "enabledCountries": [
+        "Global"
+      ]
+    },
+    {
+      "id": "feature_campaigns",
+      "name": "Campaigns",
+      "description": "Marketing campaigns module.",
+      "enabledCountries": [
+        "US",
+        "UK"
+      ]
+    },
+    {
+      "id": "feature_events",
+      "name": "Events",
+      "description": "Event management module.",
+      "enabledCountries": [
+        "Global"
+      ]
+    },
+    {
+      "id": "feature_promotions",
+      "name": "Promotions",
+      "description": "Promotions and offers.",
+      "enabledCountries": [
+        "Global"
+      ]
+    },
+    {
+      "id": "feature_tasks",
+      "name": "Tasks",
+      "description": "Task management.",
+      "enabledCountries": [
+        "Global"
+      ]
+    },
+    {
+      "id": "feature_advisor",
+      "name": "Advisor",
+      "description": "AI Advisor.",
+      "enabledCountries": [
+        "US"
+      ]
+    },
+    {
+      "id": "feature_automation",
+      "name": "Automation",
+      "description": "Workflow automation.",
+      "enabledCountries": [
+        "Global"
+      ]
+    },
+    {
+      "id": "feature_calendar",
+      "name": "Calendar",
+      "description": "Calendar view.",
+      "enabledCountries": [
+        "Global"
+      ]
+    },
+    {
+      "id": "feature_assets",
+      "name": "Assets",
+      "description": "Digital asset management.",
+      "enabledCountries": [
+        "Global"
+      ]
+    },
+    {
+      "id": "feature_social",
+      "name": "Social",
+      "description": "Social media management.",
+      "enabledCountries": [
+        "Global"
+      ]
+    },
+    {
+      "id": "feature_forms",
+      "name": "Forms",
+      "description": "Form builder and submissions.",
+      "enabledCountries": [
+        "Global"
+      ]
+    },
+    {
+      "id": "feature_deals",
+      "name": "Deals",
+      "description": "Sales pipeline and deals.",
+      "enabledCountries": [
+        "Global"
+      ]
+    },
+    {
+      "id": "ff_beta_dashboard",
+      "name": "Beta Dashboard",
+      "description": "New dashboard layout with AI insights.",
+      "enabledCountries": [
+        "US",
+        "UK",
+        "Global"
+      ]
+    },
+    {
+      "id": "ff_dark_mode_v2",
+      "name": "Dark Mode V2",
+      "description": "Enhanced contrast dark mode.",
+      "enabledCountries": [
+        "Global"
+      ]
+    },
+    {
+      "id": "ff_sms_campaigns",
+      "name": "SMS Campaigns",
+      "description": "Ability to send SMS campaigns.",
+      "enabledCountries": [
+        "Global"
+      ]
     }
   ],
   "currentUserId": "u1",

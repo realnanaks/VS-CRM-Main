@@ -427,14 +427,31 @@ app.post('/api/users', (req, res) => {
 
 app.post('/api/users/:id/onboarding', (req, res) => {
     const { id } = req.params;
-    const user = db.users.find(u => u.id === id);
-    if (user) {
-        user.hasCompletedOnboarding = true;
+    const index = db.featureFlags.findIndex(f => f.id === id);
+    if (index !== -1) {
+        db.featureFlags[index] = req.body;
         saveDB();
-        res.json(user);
+        res.json(db.featureFlags[index]);
     } else {
-        res.status(404).send('User not found');
+        res.status(404).json({ error: 'Feature flag not found' });
     }
+});
+
+// Segments
+app.get('/api/segments', (req, res) => {
+    res.json(db.segments || []);
+});
+
+app.post('/api/segments', (req, res) => {
+    const newSegment = {
+        id: Date.now().toString(),
+        name: req.body.name,
+        count: 0
+    };
+    if (!db.segments) db.segments = [];
+    db.segments.push(newSegment);
+    saveDB();
+    res.status(201).json(newSegment);
 });
 
 // Auth
@@ -552,6 +569,21 @@ app.delete('/api/countries/:code', (req, res) => {
     db.countries = db.countries.filter(c => c.code !== code);
     saveDB();
     res.status(204).send();
+});
+
+
+
+// Feature Flags
+app.get('/api/feature-flags', (req, res) => {
+    res.json(db.featureFlags);
+});
+
+app.put('/api/feature-flags/:id', (req, res) => {
+    const { id } = req.params;
+    const updatedFlag = req.body;
+    db.featureFlags = db.featureFlags.map(f => f.id === id ? updatedFlag : f);
+    saveDB();
+    res.json(updatedFlag);
 });
 
 // Start Server
