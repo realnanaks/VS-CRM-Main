@@ -49,7 +49,8 @@ The platform combines traditional CRM functionalities with advanced AI capabilit
     ```
 
 3.  **Access the application:**
-    Open [http://localhost:5173](http://localhost:5173) in your browser.
+    Open [http://localhost:3000](http://localhost:3000) in your browser.
+    Backend runs on [http://localhost:3001](http://localhost:3001).
 
 ## Credentials (Dev)
 - **User:** `john@visionary.com`
