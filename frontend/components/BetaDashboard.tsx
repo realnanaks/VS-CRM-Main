@@ -8,7 +8,8 @@ import { retrieveDashboardData, subscribeToStateChanges } from '../services/data
 import { StatCard } from './dashboard/StatCard';
 import { TrafficOverview } from './dashboard/TrafficOverview';
 import { CampaignConversions } from './dashboard/CampaignConversions';
-import { Mermaid } from './Mermaid';
+import { RiskLogicFlow } from './dashboard/RiskLogicFlow';
+import { ZScoreTable } from './dashboard/ZScoreTable';
 import { cn } from '../utils/cn';
 
 interface BetaDashboardProps {
@@ -79,14 +80,21 @@ export const BetaDashboard: React.FC<BetaDashboardProps> = ({ country }) => {
 
     const barChartRef = useRef<HTMLDivElement>(null);
     const pieChartRef = useRef<HTMLDivElement>(null);
-    const mermaidRef = useRef<HTMLDivElement>(null);
+    const riskFlowRef = useRef<HTMLDivElement>(null);
+    const dashboardRef = useRef<HTMLDivElement>(null);
+    const segmentationRef = useRef<HTMLDivElement>(null);
 
     const handleExport = useCallback((ref: React.RefObject<HTMLDivElement | null>, fileName: string) => {
         if (ref.current === null) {
             return;
         }
 
-        toJpeg(ref.current, { cacheBust: true, backgroundColor: '#ffffff', style: { borderRadius: '12px' } })
+        const filter = (node: HTMLElement) => {
+            const exclusionClasses = ['export-exclude'];
+            return !exclusionClasses.some((classname) => node.classList?.contains(classname));
+        };
+
+        toJpeg(ref.current, { cacheBust: true, backgroundColor: '#ffffff', style: { borderRadius: '12px' }, filter })
             .then((dataUrl) => {
                 const link = document.createElement('a');
                 link.download = `${fileName}.jpg`;
@@ -98,31 +106,10 @@ export const BetaDashboard: React.FC<BetaDashboardProps> = ({ country }) => {
             });
     }, []);
 
-    const chartDefinition = `
-graph TD
-    Input["<b>Input Data Point</b><br/>High Roller Bet: KSh 50,000"]
-    
-    Input --> LinearPath["<b>Model A: Linear / Normal</b><br/><i>Additive Growth (+ KSh 100/step)</i>"]
-    Input --> LogPath["<b>Model B: Log-Normal</b><br/><i>Geometric Growth (x 3/step)</i>"]
-    
-    LinearPath --> LinearCalc["Calculate Z-Score Distance"]
-    LogPath --> LogCalc["Calculate Z-Score Distance"]
-    
-    LinearCalc --> LinearResult["Result: <b>500 Standard Deviations</b><br/><i>(Distance is Impossible)</i>"]
-    LogCalc --> LogResult["Result: <b>~4.5 Standard Deviations</b><br/><i>(Distance is Rare but Valid)</i>"]
-    
-    LinearResult --> Check1{"Outlier Check"}
-    LogResult --> Check2{"Outlier Check"}
-    
-    Check1 -->|Score > 6| KillZone["<b>KILL ZONE (Error)</b><br/>Action: Data Deleted<br/><i>Outcome: Whales Removed</i>"]
-    Check2 -->|Score < 6| SafeZone["<b>SAFE ZONE (Valid)</b><br/>Action: Data Preserved<br/><i>Outcome: Whales Simulated</i>"]
-    
-    style KillZone fill:#ffcccc,stroke:#b71c1c,stroke-width:2px
-    style SafeZone fill:#dcedc8,stroke:#33691e,stroke-width:2px
-`;
+
 
     return (
-        <div className={cn("space-y-8 animate-fade-in")}>
+        <div className={cn("space-y-8 animate-fade-in")} ref={dashboardRef}>
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <div>
                     <div className="flex items-center gap-3">
@@ -133,12 +120,21 @@ graph TD
                     </div>
                     <p className="text-slate-500 mt-1">Next-generation analytics for {country}.</p>
                 </div>
-                <div className={cn(
-                    "flex items-center gap-2 text-sm text-slate-500",
-                    "bg-white px-3 py-1.5 rounded-full border border-slate-200 shadow-sm"
-                )}>
-                    <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-                    Live Updates
+                <div className="flex items-center gap-3">
+                    <button
+                        onClick={() => handleExport(dashboardRef, 'full-dashboard-export')}
+                        className="export-exclude flex items-center gap-2 text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 px-4 py-2 rounded-lg shadow-sm transition-colors"
+                    >
+                        <Download size={16} />
+                        Export Dashboard
+                    </button>
+                    <div className={cn(
+                        "flex items-center gap-2 text-sm text-slate-500",
+                        "bg-white px-3 py-1.5 rounded-full border border-slate-200 shadow-sm"
+                    )}>
+                        <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                        Live Updates
+                    </div>
                 </div>
             </div>
 
@@ -194,7 +190,7 @@ graph TD
                     <div className="flex gap-4 text-sm items-center">
                         <button
                             onClick={() => handleExport(barChartRef, 'player-value-distribution')}
-                            className="flex items-center gap-1.5 text-xs font-medium text-indigo-600 hover:text-indigo-700 bg-indigo-50 hover:bg-indigo-100 px-3 py-1.5 rounded-md transition-colors"
+                            className="export-exclude flex items-center gap-1.5 text-xs font-medium text-indigo-600 hover:text-indigo-700 bg-indigo-50 hover:bg-indigo-100 px-3 py-1.5 rounded-md transition-colors"
                         >
                             <Download size={14} />
                             Export JPG
@@ -250,20 +246,13 @@ graph TD
             </div>
 
             {/* Player Segmentation & Attributes */}
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6" ref={segmentationRef}>
                 {/* Chart */}
-                <div className="bg-white rounded-xl border border-slate-200 p-6 shadow-sm lg:col-span-1">
+                <div className="bg-white rounded-xl border border-slate-200 p-6 shadow-sm lg:col-span-1 h-fit">
                     <h3 className="text-lg font-bold text-slate-900 flex items-center gap-2 mb-6">
                         <Target className="text-indigo-600" size={20} />
                         Segmentation Model
                     </h3>
-                    <button
-                        onClick={() => handleExport(pieChartRef, 'segmentation-model')}
-                        className="absolute top-6 right-6 flex items-center gap-1.5 text-xs font-medium text-indigo-600 hover:text-indigo-700 bg-indigo-50 hover:bg-indigo-100 px-3 py-1.5 rounded-md transition-colors"
-                    >
-                        <Download size={14} />
-                        Export
-                    </button>
                     <div className="h-64 w-full relative" ref={pieChartRef}>
                         <ResponsiveContainer width="100%" height="100%">
                             <PieChart>
@@ -298,68 +287,88 @@ graph TD
                 <div className="bg-white rounded-xl border border-slate-200 p-6 shadow-sm lg:col-span-2">
                     <h3 className="text-lg font-bold text-slate-900 mb-6">Profile Attributes</h3>
                     <div className="grid gap-4">
-                        <div className="flex items-start gap-4 p-4 rounded-lg bg-slate-50 border border-slate-100">
-                            <div className="w-2 h-12 rounded-full bg-slate-300 shrink-0"></div>
-                            <div className="flex-1 grid grid-cols-1 sm:grid-cols-4 gap-4">
-                                <div className="sm:col-span-1">
-                                    <div className="font-bold text-slate-900">Casual</div>
-                                    <div className="text-sm text-slate-500">~80% Population</div>
+                        {/* Casual */}
+                        <div className="flex flex-col gap-3 p-4 rounded-lg bg-slate-50 border border-slate-100">
+                            <div className="flex items-center gap-3">
+                                <div className="w-2 h-8 rounded-full bg-slate-300"></div>
+                                <div>
+                                    <div className="font-bold text-slate-900">Casual Players ("Trivial Many")</div>
+                                    <div className="text-sm text-slate-500">80% Population</div>
+                                </div>
+                            </div>
+                            <p className="text-sm text-slate-600 italic border-l-2 border-slate-200 pl-3 my-1">
+                                "Recreational, entertainment-driven users with minimal financial commitment and sporadic engagement."
+                            </p>
+                            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-2">
+                                <div>
+                                    <div className="text-xs text-slate-400 uppercase tracking-wider font-semibold">Deposits</div>
+                                    <div className="font-medium text-slate-700 text-sm">&lt; 2 per month</div>
+                                    <div className="text-xs text-slate-400">Avg 0.8–1.2</div>
                                 </div>
                                 <div>
-                                    <div className="text-xs text-slate-400 uppercase">Stakes</div>
-                                    <div className="font-medium text-slate-700">&lt; KSh 500</div>
+                                    <div className="text-xs text-slate-400 uppercase tracking-wider font-semibold">Stakes</div>
+                                    <div className="font-medium text-slate-700 text-sm">KSh 10 – KSh 500</div>
                                 </div>
                                 <div>
-                                    <div className="text-xs text-slate-400 uppercase">Frequency</div>
-                                    <div className="font-medium text-slate-700">1 Session / 21 Days</div>
-                                </div>
-                                <div>
-                                    <div className="text-xs text-slate-400 uppercase">Churn Risk</div>
-                                    <div className="font-medium text-red-600">High (70%)</div>
+                                    <div className="text-xs text-slate-400 uppercase tracking-wider font-semibold">Sessions</div>
+                                    <div className="font-medium text-slate-700 text-sm">1–3 per month</div>
                                 </div>
                             </div>
                         </div>
 
-                        <div className="flex items-start gap-4 p-4 rounded-lg bg-indigo-50 border border-indigo-100">
-                            <div className="w-2 h-12 rounded-full bg-indigo-400 shrink-0"></div>
-                            <div className="flex-1 grid grid-cols-1 sm:grid-cols-4 gap-4">
-                                <div className="sm:col-span-1">
-                                    <div className="font-bold text-slate-900">Core</div>
-                                    <div className="text-sm text-slate-500">~18% Population</div>
+                        {/* Core */}
+                        <div className="flex flex-col gap-3 p-4 rounded-lg bg-indigo-50 border border-indigo-100">
+                            <div className="flex items-center gap-3">
+                                <div className="w-2 h-8 rounded-full bg-indigo-400"></div>
+                                <div>
+                                    <div className="font-bold text-slate-900">Core Players ("Vital Few")</div>
+                                    <div className="text-sm text-slate-500">16% Population</div>
+                                </div>
+                            </div>
+                            <p className="text-sm text-indigo-800 italic border-l-2 border-indigo-200 pl-3 my-1">
+                                "Habitual players for whom gambling is a regular hobby; consistent weekly activity and predictable deposit patterns."
+                            </p>
+                            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-2">
+                                <div>
+                                    <div className="text-xs text-indigo-400 uppercase tracking-wider font-semibold">Deposits</div>
+                                    <div className="font-medium text-slate-700 text-sm">4–12 per month</div>
                                 </div>
                                 <div>
-                                    <div className="text-xs text-slate-400 uppercase">Stakes</div>
-                                    <div className="font-medium text-slate-700">KSh 200 - 2,000</div>
+                                    <div className="text-xs text-indigo-400 uppercase tracking-wider font-semibold">Stakes</div>
+                                    <div className="font-medium text-slate-700 text-sm">KSh 500 – KSh 5,000</div>
                                 </div>
                                 <div>
-                                    <div className="text-xs text-slate-400 uppercase">Frequency</div>
-                                    <div className="font-medium text-slate-700">Weekly (4-5/mo)</div>
-                                </div>
-                                <div>
-                                    <div className="text-xs text-slate-400 uppercase">Churn Risk</div>
-                                    <div className="font-medium text-emerald-600">Low (10%)</div>
+                                    <div className="text-xs text-indigo-400 uppercase tracking-wider font-semibold">Sessions</div>
+                                    <div className="font-medium text-slate-700 text-sm">12–25 per month</div>
                                 </div>
                             </div>
                         </div>
 
-                        <div className="flex items-start gap-4 p-4 rounded-lg bg-indigo-900 border border-indigo-800">
-                            <div className="w-2 h-12 rounded-full bg-indigo-500 shrink-0"></div>
-                            <div className="flex-1 grid grid-cols-1 sm:grid-cols-4 gap-4">
-                                <div className="sm:col-span-1">
-                                    <div className="font-bold text-white">Whales</div>
-                                    <div className="text-sm text-indigo-200">~2% Population</div>
+                        {/* Whales */}
+                        <div className="flex flex-col gap-3 p-4 rounded-lg bg-indigo-900 border border-indigo-800">
+                            <div className="flex items-center gap-3">
+                                <div className="w-2 h-8 rounded-full bg-indigo-500"></div>
+                                <div>
+                                    <div className="font-bold text-white">High Rollers / "Whales"</div>
+                                    <div className="text-sm text-indigo-200">4% Population</div>
+                                </div>
+                            </div>
+                            <p className="text-sm text-indigo-100 italic border-l-2 border-indigo-500 pl-3 my-1">
+                                "The extreme heavy tail of the power-law distribution; drive the majority of revenue through very high stakes and session velocity."
+                            </p>
+                            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-2">
+                                <div>
+                                    <div className="text-xs text-indigo-300 uppercase tracking-wider font-semibold">Deposits</div>
+                                    <div className="font-medium text-white text-sm">15+ per month</div>
+                                    <div className="text-xs text-indigo-400">&gt; KSh 50,000 total</div>
                                 </div>
                                 <div>
-                                    <div className="text-xs text-indigo-300 uppercase">Stakes</div>
-                                    <div className="font-medium text-white">&gt; KSh 10,000</div>
+                                    <div className="text-xs text-indigo-300 uppercase tracking-wider font-semibold">Stakes</div>
+                                    <div className="font-medium text-white text-sm">&gt; KSh 10,000</div>
                                 </div>
                                 <div>
-                                    <div className="text-xs text-indigo-300 uppercase">Frequency</div>
-                                    <div className="font-medium text-white">Daily (25+/mo)</div>
-                                </div>
-                                <div>
-                                    <div className="text-xs text-indigo-300 uppercase">Churn Risk</div>
-                                    <div className="font-medium text-emerald-400">Very Low (5%)</div>
+                                    <div className="text-xs text-indigo-300 uppercase tracking-wider font-semibold">Sessions</div>
+                                    <div className="font-medium text-white text-sm">Daily, multiple hours</div>
                                 </div>
                             </div>
                         </div>
@@ -367,23 +376,27 @@ graph TD
                 </div>
             </div >
 
-            {/* Mermaid Diagram Section */}
+            {/* Risk Logic Flow Section */}
             <div className="bg-white rounded-xl border border-slate-200 p-6 shadow-sm">
                 <div className="flex items-center justify-between mb-6">
                     <h3 className="text-lg font-bold text-slate-900 flex items-center gap-2">
                         <BrainCircuit className="text-indigo-600" size={20} />
-                        Outlier Detection Logic
+                        Kill Zone Logic Flow
                     </h3>
                     <button
-                        onClick={() => handleExport(mermaidRef, 'outlier-detection-logic')}
-                        className="flex items-center gap-1.5 text-xs font-medium text-indigo-600 hover:text-indigo-700 bg-indigo-50 hover:bg-indigo-100 px-3 py-1.5 rounded-md transition-colors"
+                        onClick={() => handleExport(riskFlowRef, 'outlier-detection-logic')}
+                        className="export-exclude flex items-center gap-1.5 text-xs font-medium text-indigo-600 hover:text-indigo-700 bg-indigo-50 hover:bg-indigo-100 px-3 py-1.5 rounded-md transition-colors"
                     >
                         <Download size={14} />
                         Export JPG
                     </button>
                 </div>
-                <div className="overflow-x-auto bg-white p-4 rounded-lg" ref={mermaidRef}>
-                    <Mermaid chart={chartDefinition} />
+                <div className="overflow-x-auto bg-white p-4 rounded-lg" ref={riskFlowRef}>
+                    <RiskLogicFlow />
+                </div>
+
+                <div className="mt-6 pt-6 border-t border-slate-100">
+                    <ZScoreTable />
                 </div>
             </div>
 
