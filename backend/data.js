@@ -2,12 +2,12 @@
 // Initial Mock Data - Migrated from Frontend
 
 const MOCK_CONTACTS = [
-    { id: '1', name: 'Alice Freeman', email: 'alice@example.com', company: 'TechNova', status: 'Customer', lastContact: '2 days ago', avatar: 'https://picsum.photos/40/40?random=1', country: 'US', score: 85, scoreReason: 'High engagement with recent email campaigns.' },
-    { id: '2', name: 'Bob Smith', email: 'bob@example.com', company: 'LogiCorp', status: 'Lead', lastContact: '5 hours ago', avatar: 'https://picsum.photos/40/40?random=2', country: 'UK', score: 45, scoreReason: 'Visited pricing page but no signup.' },
-    { id: '3', name: 'Charlie Davis', email: 'charlie@example.com', company: 'BuildIt Inc', status: 'Churned', lastContact: '1 month ago', avatar: 'https://picsum.photos/40/40?random=3', country: 'US', score: 12, scoreReason: 'Unsubscribed from newsletter.' },
-    { id: '4', name: 'Diana Prince', email: 'diana@example.com', company: 'Amazonia', status: 'Customer', lastContact: '1 week ago', avatar: 'https://picsum.photos/40/40?random=4', country: 'DE', score: 92, scoreReason: 'Frequent purchaser and VIP member.' },
-    { id: '5', name: 'Evan Wright', email: 'evan@example.com', company: 'WrightDesign', status: 'Lead', lastContact: '3 days ago', avatar: 'https://picsum.photos/40/40?random=5', country: 'FR', score: 65, scoreReason: 'Attended webinar.' },
-    { id: '6', name: 'Fiona Gallagher', email: 'fiona@example.com', company: 'Gallagher Ind', status: 'Lead', lastContact: '1 day ago', avatar: 'https://picsum.photos/40/40?random=6', country: 'JP', score: 78, scoreReason: 'Downloaded whitepaper.' },
+    { id: '1', name: 'Kwame Mensah', email: 'kwame@mtnghana.com', company: 'MTN Ghana', status: 'Customer', lastContact: '2 days ago', avatar: 'https://picsum.photos/40/40?random=1', country: 'GH', department: 'client_services', score: 85, scoreReason: 'High engagement with Tidal Rave campaign.' },
+    { id: '2', name: 'Ngozi Okafor', email: 'ngozi@guarantytrust.ng', company: 'GTBank Nigeria', status: 'Lead', lastContact: '5 hours ago', avatar: 'https://picsum.photos/40/40?random=2', country: 'NG', department: 'strategy', score: 45, scoreReason: 'Interested in brand repositioning.' },
+    { id: '3', name: 'Thabo Ndlovu', email: 'thabo@vodacom.co.za', company: 'Vodacom SA', status: 'Customer', lastContact: '1 week ago', avatar: 'https://picsum.photos/40/40?random=4', country: 'ZA', department: 'media', score: 92, scoreReason: 'Long-term media buying client.' },
+    { id: '4', name: 'Amara Diallo', email: 'amara@orangeci.com', company: 'Orange Ivory Coast', status: 'Lead', lastContact: '3 days ago', avatar: 'https://picsum.photos/40/40?random=5', country: 'CI', department: 'digital', score: 65, scoreReason: 'Exploring social media management.' },
+    { id: '5', name: 'Kofi Asante', email: 'kofi@ecobank.com', company: 'Ecobank Togo', status: 'Lead', lastContact: '1 day ago', avatar: 'https://picsum.photos/40/40?random=6', country: 'TG', department: 'creative', score: 78, scoreReason: 'Requested creative pitch deck.' },
+    { id: '6', name: 'Fatou Sow', email: 'fatou@moovbenin.bj', company: 'Moov Benin', status: 'Customer', lastContact: '4 days ago', avatar: 'https://picsum.photos/40/40?random=7', country: 'BJ', department: 'production', score: 70, scoreReason: 'Event production partnership.' },
 ];
 
 const MOCK_CAMPAIGNS = [
@@ -174,9 +174,11 @@ const MOCK_DEALS = [
 ];
 
 const MOCK_USERS = [
-    { id: 'u1', name: 'John Doe', email: 'john@visionary.com', role: 'Super Admin', avatar: 'https://ui-avatars.com/api/?name=John+Doe&background=6366f1&color=fff', assignedCountries: ['Global', 'US', 'UK', 'DE', 'FR', 'JP'], password: 'password123', hasCompletedOnboarding: true },
-    { id: 'u2', name: 'Sarah Smith', email: 'sarah@visionary.com', role: 'Country Manager', avatar: 'https://ui-avatars.com/api/?name=Sarah+Smith&background=10b981&color=fff', assignedCountries: ['UK'], password: 'password123', hasCompletedOnboarding: true },
-    { id: 'u3', name: 'Mike Jones', email: 'mike@visionary.com', role: 'Marketing Specialist', avatar: 'https://ui-avatars.com/api/?name=Mike+Jones&background=f59e0b&color=fff', assignedCountries: ['US'], password: 'password123', hasCompletedOnboarding: true },
+    { id: 'u1', name: 'Kwesi Appiah', email: 'kwesi@echohouse.com', role: 'Super Admin', avatar: 'https://ui-avatars.com/api/?name=Kwesi+Appiah&background=6366f1&color=fff', assignedCountries: ['Global', 'GH', 'NG', 'CI', 'ZA', 'BJ', 'TG'], assignedDepartments: ['creative', 'media', 'strategy', 'digital', 'production', 'client_services', 'data_analytics', 'finance_ops'], password: 'password123', hasCompletedOnboarding: true },
+    { id: 'u2', name: 'Adaeze Nwosu', email: 'adaeze@echohouse.com', role: 'Country Manager', avatar: 'https://ui-avatars.com/api/?name=Adaeze+Nwosu&background=10b981&color=fff', assignedCountries: ['NG'], assignedDepartments: ['creative', 'media', 'strategy', 'digital', 'production', 'client_services', 'data_analytics', 'finance_ops'], password: 'password123', hasCompletedOnboarding: true },
+    { id: 'u3', name: 'Yaw Mensah', email: 'yaw@echohouse.com', role: 'Department Lead', avatar: 'https://ui-avatars.com/api/?name=Yaw+Mensah&background=f59e0b&color=fff', assignedCountries: ['GH'], assignedDepartments: ['creative'], password: 'password123', hasCompletedOnboarding: true },
+    { id: 'u4', name: 'Amina Diop', email: 'amina@echohouse.com', role: 'Department Lead', avatar: 'https://ui-avatars.com/api/?name=Amina+Diop&background=ec4899&color=fff', assignedCountries: ['CI'], assignedDepartments: ['digital'], password: 'password123', hasCompletedOnboarding: true },
+    { id: 'u5', name: 'Thandi Mthembu', email: 'thandi@echohouse.com', role: 'Staff', avatar: 'https://ui-avatars.com/api/?name=Thandi+Mthembu&background=8b5cf6&color=fff', assignedCountries: ['ZA'], assignedDepartments: ['finance_ops'], password: 'password123', hasCompletedOnboarding: true },
 ];
 
 const MOCK_LOGS = [
@@ -186,11 +188,27 @@ const MOCK_LOGS = [
 
 const MOCK_COUNTRIES = [
     { code: 'Global', name: 'Global', flag: '🌍' },
-    { code: 'US', name: 'United States', flag: '🇺🇸' },
-    { code: 'UK', name: 'United Kingdom', flag: '🇬🇧' },
-    { code: 'DE', name: 'Germany', flag: '🇩🇪' },
-    { code: 'FR', name: 'France', flag: '🇫🇷' },
-    { code: 'JP', name: 'Japan', flag: '🇯🇵' }
+    { code: 'GH', name: 'Ghana', flag: '🇬🇭' },
+    { code: 'NG', name: 'Nigeria', flag: '🇳🇬' },
+    { code: 'CI', name: 'Ivory Coast', flag: '🇨🇮' },
+    { code: 'ZA', name: 'South Africa', flag: '🇿🇦' },
+    { code: 'BJ', name: 'Benin', flag: '🇧🇯' },
+    { code: 'TG', name: 'Togo', flag: '🇹🇬' }
+];
+
+const MOCK_DEPARTMENTS = [
+    { id: 'creative', name: 'Creative', description: 'Design, copywriting, branding, content creation' },
+    { id: 'media', name: 'Media & Advertising', description: 'Paid media buying, campaign management, PPC' },
+    { id: 'strategy', name: 'Strategy & Planning', description: 'Account strategy, brand planning, market research' },
+    { id: 'digital', name: 'Digital & Social', description: 'Social media management, SEO, web development' },
+    { id: 'production', name: 'Production', description: 'Events, video production, photography' },
+    { id: 'client_services', name: 'Client Services', description: 'Account management, client relationships' },
+    { id: 'data_analytics', name: 'Data & Analytics', description: 'Reporting, performance analysis, insights' },
+    { id: 'finance', name: 'Finance', description: 'Financial planning, budgeting, invoicing, payments' },
+    { id: 'operations', name: 'Operations', description: 'Business operations, admin, facilities, procurement' },
+    { id: 'hr', name: 'Human Resources', description: 'Recruitment, employee relations, payroll, benefits' },
+    { id: 'technology', name: 'Technology & IT', description: 'IT infrastructure, software development, tech support' },
+    { id: 'business_dev', name: 'Business Development', description: 'New business, partnerships, growth initiatives' }
 ];
 
 const MOCK_FEATURE_FLAGS = [
@@ -230,7 +248,6 @@ const initialDB = {
     events: MOCK_EVENTS,
     featureFlags: MOCK_FEATURE_FLAGS,
     segments: MOCK_SEGMENTS,
-    events: MOCK_EVENTS,
     promotions: MOCK_PROMOTIONS,
     assets: MOCK_ASSETS,
     journeys: MOCK_JOURNEYS,
@@ -242,7 +259,7 @@ const initialDB = {
     logs: MOCK_LOGS,
     users: MOCK_USERS,
     countries: MOCK_COUNTRIES,
-    featureFlags: MOCK_FEATURE_FLAGS,
+    departments: MOCK_DEPARTMENTS,
     currentUserId: 'u1',
     theme: 'indigo'
 };

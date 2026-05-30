@@ -44,11 +44,32 @@ if (!fs.existsSync(DB_FILE)) {
 }
 
 const { google } = require('googleapis');
+const { 
+    getUserAccessibleFolders, 
+    userHasAccessToFolder, 
+    getFolderMetadata 
+} = require('./drivePermissions');
+const { parseFile, extractData } = require('./fileParsers');
+const {
+    generateInsights,
+    generateReport,
+    answerQuery,
+    predictCampaignPerformance,
+    analyzeChurnRisk,
+    optimizeBudget
+} = require('./aiService');
 
 // Helper to filter by country
 const filterByCountry = (data, country) => {
     if (!country || country === 'Global') return data;
     return data.filter(item => item.country === country);
+};
+
+// Helper to get current user from request (mock for now)
+const getCurrentUserFromRequest = (req) => {
+    // In production, this would extract user from JWT token
+    // For now, return the first user from db
+    return db.users.find(u => u.id === db.currentUserId) || db.users[0];
 };
 
 // Google Drive Integration
@@ -83,6 +104,32 @@ const connectToDrive = async () => {
 // Initialize Drive connection
 connectToDrive();
 
+// File Uploads - Define multer before using it
+const multer = require('multer');
+
+// Ensure uploads directory exists
+const uploadDir = path.join(__dirname, 'uploads');
+if (!fs.existsSync(uploadDir)) {
+    fs.mkdirSync(uploadDir);
+}
+
+// Configure storage
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, 'uploads/')
+    },
+    filename: function (req, file, cb) {
+        // Use timestamp to prevent collisions
+        const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+        cb(null, uniqueSuffix + path.extname(file.originalname));
+    }
+});
+
+const upload = multer({ storage: storage });
+
+// Serve static files from uploads directory
+app.use('/uploads', express.static('uploads'));
+
 // --- API Endpoints ---
 
 app.get('/api/drive/status', (req, res) => {
@@ -92,6 +139,359 @@ app.get('/api/drive/status', (req, res) => {
 app.post('/api/drive/connect', async (req, res) => {
     const success = await connectToDrive();
     res.json({ connected: success, email: connectedEmail });
+});
+
+// Google Drive Folder Management
+app.get('/api/drive/folders', (req, res) => {
+    const user = getCurrentUserFromRequest(req);
+    const accessibleFolders = getUserAccessibleFolders(user);
+    res.json(accessibleFolders);
+});
+
+app.get('/api/drive/folders/:folderId/files', async (req, res) => {
+    const { folderId } = req.params;
+    const user = getCurrentUserFromRequest(req);
+
+    // Check permission
+    if (!userHasAccessToFolder(user, folderId, 'read')) {
+        return res.status(403).json({ error: 'Access denied to this folder' });
+    }
+
+    if (!driveClient) {
+        return res.status(503).json({ error: 'Google Drive not connected' });
+    }
+
+    try {
+        const response = await driveClient.files.list({
+            q: `'${folderId}' in parents and trashed=false`,
+            fields: 'files(id, name, mimeType, size, createdTime, modifiedTime, webViewLink, thumbnailLink)',
+            orderBy: 'modifiedTime desc'
+        });
+
+        const folderMetadata = getFolderMetadata(folderId);
+        res.json({
+            folder: folderMetadata,
+            files: response.data.files || []
+        });
+    } catch (error) {
+        console.error('Error listing files:', error);
+        res.status(500).json({ error: 'Failed to list files' });
+    }
+});
+
+app.get('/api/drive/files/:fileId', async (req, res) => {
+    const { fileId } = req.params;
+    const user = getCurrentUserFromRequest(req);
+
+    if (!driveClient) {
+        return res.status(503).json({ error: 'Google Drive not connected' });
+    }
+
+    try {
+        // Get file metadata first to check which folder it's in
+        const fileMetadata = await driveClient.files.get({
+            fileId: fileId,
+            fields: 'id, name, mimeType, parents'
+        });
+
+        // Check if user has access to the parent folder
+        const parentFolderId = fileMetadata.data.parents?.[0];
+        if (parentFolderId && !userHasAccessToFolder(user, parentFolderId, 'read')) {
+            return res.status(403).json({ error: 'Access denied to this file' });
+        }
+
+        // Get file content
+        const response = await driveClient.files.get({
+            fileId: fileId,
+            alt: 'media'
+        }, { responseType: 'stream' });
+
+        res.setHeader('Content-Type', fileMetadata.data.mimeType);
+        res.setHeader('Content-Disposition', `attachment; filename="${fileMetadata.data.name}"`);
+        response.data.pipe(res);
+    } catch (error) {
+        console.error('Error downloading file:', error);
+        res.status(500).json({ error: 'Failed to download file' });
+    }
+});
+
+app.post('/api/drive/folders/:folderId/upload', upload.single('file'), async (req, res) => {
+    const { folderId } = req.params;
+    const user = getCurrentUserFromRequest(req);
+
+    // Check permission
+    if (!userHasAccessToFolder(user, folderId, 'write')) {
+        return res.status(403).json({ error: 'Access denied to upload to this folder' });
+    }
+
+    if (!driveClient) {
+        return res.status(503).json({ error: 'Google Drive not connected' });
+    }
+
+    if (!req.file) {
+        return res.status(400).json({ error: 'No file uploaded' });
+    }
+
+    try {
+        const fileMetadata = {
+            name: req.file.originalname,
+            parents: [folderId]
+        };
+
+        const media = {
+            mimeType: req.file.mimetype,
+            body: fs.createReadStream(req.file.path)
+        };
+
+        const response = await driveClient.files.create({
+            requestBody: fileMetadata,
+            media: media,
+            fields: 'id, name, mimeType, webViewLink'
+        });
+
+        // Delete local file after upload
+        fs.unlinkSync(req.file.path);
+
+        // Log the action
+        const folderMetadata = getFolderMetadata(folderId);
+        console.log(`[FILE UPLOAD] User: ${user.name}, File: ${req.file.originalname}, Folder: ${folderMetadata?.path}`);
+
+        res.json(response.data);
+    } catch (error) {
+        console.error('Error uploading file:', error);
+        // Clean up local file on error
+        if (req.file && fs.existsSync(req.file.path)) {
+            fs.unlinkSync(req.file.path);
+        }
+        res.status(500).json({ error: 'Failed to upload file' });
+    }
+});
+
+app.delete('/api/drive/files/:fileId', async (req, res) => {
+    const { fileId } = req.params;
+    const user = getCurrentUserFromRequest(req);
+
+    if (!driveClient) {
+        return res.status(503).json({ error: 'Google Drive not connected' });
+    }
+
+    try {
+        // Get file metadata to check permissions
+        const fileMetadata = await driveClient.files.get({
+            fileId: fileId,
+            fields: 'id, name, parents'
+        });
+
+        const parentFolderId = fileMetadata.data.parents?.[0];
+        if (parentFolderId && !userHasAccessToFolder(user, parentFolderId, 'delete')) {
+            return res.status(403).json({ error: 'Access denied to delete this file' });
+        }
+
+        // Delete the file
+        await driveClient.files.delete({ fileId: fileId });
+
+        // Log the action
+        console.log(`[FILE DELETE] User: ${user.name}, File: ${fileMetadata.data.name}`);
+
+        res.status(204).send();
+    } catch (error) {
+        console.error('Error deleting file:', error);
+        res.status(500).json({ error: 'Failed to delete file' });
+    }
+});
+
+// File Ingestion - Parse uploaded files
+app.post('/api/ingest/parse', upload.single('file'), async (req, res) => {
+    if (!req.file) {
+        return res.status(400).json({ error: 'No file uploaded' });
+    }
+
+    try {
+        const filePath = req.file.path;
+        const mimeType = req.file.mimetype;
+        
+        // Parse the file
+        const parsedData = await parseFile(filePath, mimeType);
+        
+        // Clean up the uploaded file
+        fs.unlinkSync(filePath);
+        
+        res.json(parsedData);
+    } catch (error) {
+        console.error('Error parsing file:', error);
+        // Clean up on error
+        if (req.file && fs.existsSync(req.file.path)) {
+            fs.unlinkSync(req.file.path);
+        }
+        res.status(500).json({ error: error.message });
+    }
+});
+
+// Parse a file from Google Drive
+app.post('/api/ingest/parse-drive/:fileId', async (req, res) => {
+    const { fileId } = req.params;
+    const user = getCurrentUserFromRequest(req);
+
+    if (!driveClient) {
+        return res.status(503).json({ error: 'Google Drive not connected' });
+    }
+
+    try {
+        // Get file metadata
+        const fileMetadata = await driveClient.files.get({
+            fileId: fileId,
+            fields: 'id, name, mimeType, parents'
+        });
+
+        // Check permissions
+        const parentFolderId = fileMetadata.data.parents?.[0];
+        if (parentFolderId && !userHasAccessToFolder(user, parentFolderId, 'read')) {
+            return res.status(403).json({ error: 'Access denied to this file' });
+        }
+
+        // Download file to temp location
+        const tempPath = path.join(uploadDir, `temp-${Date.now()}-${fileMetadata.data.name}`);
+        const dest = fs.createWriteStream(tempPath);
+        
+        const response = await driveClient.files.get({
+            fileId: fileId,
+            alt: 'media'
+        }, { responseType: 'stream' });
+
+        await new Promise((resolve, reject) => {
+            response.data
+                .pipe(dest)
+                .on('finish', resolve)
+                .on('error', reject);
+        });
+
+        // Parse the file
+        const parsedData = await parseFile(tempPath, fileMetadata.data.mimeType);
+        
+        // Clean up temp file
+        fs.unlinkSync(tempPath);
+        
+        console.log(`[FILE PARSED] User: ${user.name}, File: ${fileMetadata.data.name}`);
+        
+        res.json(parsedData);
+    } catch (error) {
+        console.error('Error parsing Drive file:', error);
+        res.status(500).json({ error: error.message });
+    }
+});
+
+// Extract data using a template
+app.post('/api/ingest/extract', (req, res) => {
+    const { parsedData, template } = req.body;
+    
+    if (!parsedData || !template) {
+        return res.status(400).json({ error: 'Missing parsedData or template' });
+    }
+
+    try {
+        const extracted = extractData(parsedData, template);
+        res.json(extracted);
+    } catch (error) {
+        console.error('Error extracting data:', error);
+        res.status(500).json({ error: error.message });
+    }
+});
+
+// AI-Powered Insights and Reports
+app.post('/api/ai/insights', async (req, res) => {
+    const { data, context } = req.body;
+    
+    if (!data) {
+        return res.status(400).json({ error: 'Missing data' });
+    }
+
+    try {
+        const insights = await generateInsights(data, context);
+        res.json(insights);
+    } catch (error) {
+        console.error('Error generating insights:', error);
+        res.status(500).json({ error: error.message });
+    }
+});
+
+app.post('/api/ai/report', async (req, res) => {
+    const { reportType, data, options } = req.body;
+    
+    if (!reportType || !data) {
+        return res.status(400).json({ error: 'Missing reportType or data' });
+    }
+
+    try {
+        const report = await generateReport(reportType, data, options);
+        res.json(report);
+    } catch (error) {
+        console.error('Error generating report:', error);
+        res.status(500).json({ error: error.message });
+    }
+});
+
+app.post('/api/ai/query', async (req, res) => {
+    const { query, data } = req.body;
+    
+    if (!query) {
+        return res.status(400).json({ error: 'Missing query' });
+    }
+
+    try {
+        const answer = await answerQuery(query, data || {});
+        res.json({ query, answer });
+    } catch (error) {
+        console.error('Error answering query:', error);
+        res.status(500).json({ error: error.message });
+    }
+});
+
+app.post('/api/ai/predict-campaign', async (req, res) => {
+    const { campaignData, historicalData } = req.body;
+    
+    if (!campaignData) {
+        return res.status(400).json({ error: 'Missing campaignData' });
+    }
+
+    try {
+        const prediction = await predictCampaignPerformance(campaignData, historicalData || {});
+        res.json(prediction);
+    } catch (error) {
+        console.error('Error predicting campaign:', error);
+        res.status(500).json({ error: error.message });
+    }
+});
+
+app.post('/api/ai/churn-risk', async (req, res) => {
+    const { clientData } = req.body;
+    
+    if (!clientData) {
+        return res.status(400).json({ error: 'Missing clientData' });
+    }
+
+    try {
+        const analysis = await analyzeChurnRisk(clientData);
+        res.json(analysis);
+    } catch (error) {
+        console.error('Error analyzing churn risk:', error);
+        res.status(500).json({ error: error.message });
+    }
+});
+
+app.post('/api/ai/optimize-budget', async (req, res) => {
+    const { budgetData, performanceData } = req.body;
+    
+    if (!budgetData || !performanceData) {
+        return res.status(400).json({ error: 'Missing budgetData or performanceData' });
+    }
+
+    try {
+        const recommendations = await optimizeBudget(budgetData, performanceData);
+        res.json(recommendations);
+    } catch (error) {
+        console.error('Error optimizing budget:', error);
+        res.status(500).json({ error: error.message });
+    }
 });
 
 // Dashboard / Summary Data
@@ -228,32 +628,6 @@ app.put('/api/events/:id', (req, res) => {
     saveDB();
     res.json(updatedEvent);
 });
-
-// File Uploads
-const multer = require('multer');
-
-// Ensure uploads directory exists
-const uploadDir = path.join(__dirname, 'uploads');
-if (!fs.existsSync(uploadDir)) {
-    fs.mkdirSync(uploadDir);
-}
-
-// Configure storage
-const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-        cb(null, 'uploads/')
-    },
-    filename: function (req, file, cb) {
-        // Use timestamp to prevent collisions
-        const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
-        cb(null, uniqueSuffix + path.extname(file.originalname));
-    }
-});
-
-const upload = multer({ storage: storage });
-
-// Serve static files from uploads directory
-app.use('/uploads', express.static('uploads'));
 
 app.post('/api/upload', upload.single('image'), (req, res) => {
     if (!req.file) {
@@ -526,6 +900,11 @@ app.put('/api/theme', (req, res) => {
     db.theme = theme;
     saveDB();
     res.json({ theme });
+});
+
+// Departments
+app.get('/api/departments', (req, res) => {
+    res.json(db.departments || []);
 });
 
 // Countries

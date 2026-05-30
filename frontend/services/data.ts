@@ -1,7 +1,8 @@
 
-import { Contact, Campaign, Promotion, Task, Asset, Journey, Project, Event, AuditLog, CountryCode, User, EventFeedback, Ticket, TicketTier, SocialPost, SocialConnection, Form, FormSubmission, FormField, Deal, Performance, Theme } from '../types';
+import { Contact, Campaign, Promotion, Task, Asset, Journey, Project, Event, AuditLog, CountryCode, User, EventFeedback, Ticket, TicketTier, SocialPost, SocialConnection, Form, FormSubmission, FormField, Deal, Performance, Theme, Department } from '../types';
 
 export let COUNTRIES: { code: CountryCode; name: string; flag: string }[] = [];
+export let DEPARTMENTS: Department[] = [];
 
 // --- INITIAL MOCK DATA ---
 const MOCK_CONTACTS: Contact[] = [
@@ -179,7 +180,7 @@ const MOCK_DEALS: Deal[] = [
 const MOCK_USERS: User[] = [
   { id: 'u1', name: 'John Doe', email: 'john@visionary.com', role: 'Super Admin', avatar: 'https://ui-avatars.com/api/?name=John+Doe&background=6366f1&color=fff', assignedCountries: ['Global', 'US', 'UK', 'DE', 'FR', 'JP'] },
   { id: 'u2', name: 'Sarah Smith', email: 'sarah@visionary.com', role: 'Country Manager', avatar: 'https://ui-avatars.com/api/?name=Sarah+Smith&background=10b981&color=fff', assignedCountries: ['UK'] },
-  { id: 'u3', name: 'Mike Jones', email: 'mike@visionary.com', role: 'Employee', avatar: 'https://ui-avatars.com/api/?name=Mike+Jones&background=f59e0b&color=fff', assignedCountries: ['US'] },
+  { id: 'u3', name: 'Mike Jones', email: 'mike@visionary.com', role: 'Staff', avatar: 'https://ui-avatars.com/api/?name=Mike+Jones&background=f59e0b&color=fff', assignedCountries: ['US'] },
 ];
 
 const MOCK_LOGS: AuditLog[] = [
@@ -247,6 +248,12 @@ export const initializeDatabase = async () => {
     const countriesRes = await fetch(`${BASE_API_URL}/countries`);
     if (countriesRes.ok) {
       COUNTRIES = await countriesRes.json();
+    }
+
+    // Load departments
+    const departmentsRes = await fetch(`${BASE_API_URL}/departments`);
+    if (departmentsRes.ok) {
+      DEPARTMENTS = await departmentsRes.json();
     }
 
     stateChangeSubscribers.forEach(subscriber => subscriber());

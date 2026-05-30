@@ -2,75 +2,81 @@
   "contacts": [
     {
       "id": "1",
-      "name": "Alice Freeman",
-      "email": "alice@example.com",
-      "company": "TechNova",
+      "name": "Kwame Mensah",
+      "email": "kwame@mtnghana.com",
+      "company": "MTN Ghana",
       "status": "Customer",
       "lastContact": "2 days ago",
       "avatar": "https://picsum.photos/40/40?random=1",
-      "country": "US",
+      "country": "GH",
+      "department": "client_services",
       "score": 85,
-      "scoreReason": "High engagement with recent email campaigns."
+      "scoreReason": "High engagement with Tidal Rave campaign."
     },
     {
       "id": "2",
-      "name": "Bob Smith",
-      "email": "bob@example.com",
-      "company": "LogiCorp",
+      "name": "Ngozi Okafor",
+      "email": "ngozi@guarantytrust.ng",
+      "company": "GTBank Nigeria",
       "status": "Lead",
       "lastContact": "5 hours ago",
       "avatar": "https://picsum.photos/40/40?random=2",
-      "country": "UK",
+      "country": "NG",
+      "department": "strategy",
       "score": 45,
-      "scoreReason": "Visited pricing page but no signup."
+      "scoreReason": "Interested in brand repositioning."
     },
     {
       "id": "3",
-      "name": "Charlie Davis",
-      "email": "charlie@example.com",
-      "company": "BuildIt Inc",
-      "status": "Churned",
-      "lastContact": "1 month ago",
-      "avatar": "https://picsum.photos/40/40?random=3",
-      "country": "US",
-      "score": 12,
-      "scoreReason": "Unsubscribed from newsletter."
-    },
-    {
-      "id": "4",
-      "name": "Diana Prince",
-      "email": "diana@example.com",
-      "company": "Amazonia",
+      "name": "Thabo Ndlovu",
+      "email": "thabo@vodacom.co.za",
+      "company": "Vodacom SA",
       "status": "Customer",
       "lastContact": "1 week ago",
       "avatar": "https://picsum.photos/40/40?random=4",
-      "country": "DE",
+      "country": "ZA",
+      "department": "media",
       "score": 92,
-      "scoreReason": "Frequent purchaser and VIP member."
+      "scoreReason": "Long-term media buying client."
     },
     {
-      "id": "5",
-      "name": "Evan Wright",
-      "email": "evan@example.com",
-      "company": "WrightDesign",
+      "id": "4",
+      "name": "Amara Diallo",
+      "email": "amara@orangeci.com",
+      "company": "Orange Ivory Coast",
       "status": "Lead",
       "lastContact": "3 days ago",
       "avatar": "https://picsum.photos/40/40?random=5",
-      "country": "FR",
+      "country": "CI",
+      "department": "digital",
       "score": 65,
-      "scoreReason": "Attended webinar."
+      "scoreReason": "Exploring social media management."
     },
     {
-      "id": "6",
-      "name": "Fiona Gallagher",
-      "email": "fiona@example.com",
-      "company": "Gallagher Ind",
+      "id": "5",
+      "name": "Kofi Asante",
+      "email": "kofi@ecobank.com",
+      "company": "Ecobank Togo",
       "status": "Lead",
       "lastContact": "1 day ago",
       "avatar": "https://picsum.photos/40/40?random=6",
-      "country": "JP",
+      "country": "TG",
+      "department": "creative",
       "score": 78,
-      "scoreReason": "Downloaded whitepaper."
+      "scoreReason": "Requested creative pitch deck."
+    },
+    {
+      "id": "6",
+      "name": "Fatou Sow",
+      "email": "fatou@moovbenin.bj",
+      "company": "Moov Benin",
+      "status": "Customer",
+      "lastContact": "4 days ago",
+      "avatar": "https://picsum.photos/40/40?random=7",
+      "country": "BJ",
+      "department": "production",
+      "score": 70,
+      "scoreReason": "Event production partnership."
     }
   ],
   "campaigns": [
@@ -113,7 +119,7 @@
     {
       "id": "1",
       "title": "Review Q4 Marketing Plan",
-      "dueDate": "2025-12-03",
+      "dueDate": "2026-05-29",
       "priority": "High",
       "completed": false,
       "country": "US"
@@ -121,7 +127,7 @@
     {
       "id": "2",
       "title": "Approve new banner ads",
-      "dueDate": "2025-12-04",
+      "dueDate": "2026-05-30",
       "priority": "Medium",
       "completed": false,
       "country": "Global"
@@ -129,7 +135,7 @@
     {
       "id": "3",
       "title": "Send invite for webinar",
-      "dueDate": "2025-12-02",
+      "dueDate": "2026-05-28",
       "priority": "High",
       "completed": true,
       "country": "UK"
@@ -475,6 +481,181 @@
       ]
     }
   ],
+  "featureFlags": [
+    {
+      "id": "feature_dashboard",
+      "name": "Dashboard",
+      "description": "Access to the main dashboard.",
+      "enabledCountries": [
+        "Global"
+      ]
+    },
+    {
+      "id": "feature_projects",
+      "name": "Projects",
+      "description": "Project management module.",
+      "enabledCountries": [
+        "Global"
+      ]
+    },
+    {
+      "id": "feature_contacts",
+      "name": "Contacts",
+      "description": "CRM contacts management.",
+      "enabledCountries": [
+        "Global"
+      ]
+    },
+    {
+      "id": "feature_campaigns",
+      "name": "Campaigns",
+      "description": "Marketing campaigns module.",
+      "enabledCountries": [
+        "US",
+        "UK"
+      ]
+    },
+    {
+      "id": "feature_events",
+      "name": "Events",
+      "description": "Event management module.",
+      "enabledCountries": [
+        "Global"
+      ]
+    },
+    {
+      "id": "feature_promotions",
+      "name": "Promotions",
+      "description": "Promotions and offers.",
+      "enabledCountries": [
+        "Global"
+      ]
+    },
+    {
+      "id": "feature_tasks",
+      "name": "Tasks",
+      "description": "Task management.",
+      "enabledCountries": [
+        "Global"
+      ]
+    },
+    {
+      "id": "feature_advisor",
+      "name": "Advisor",
+      "description": "AI Advisor.",
+      "enabledCountries": [
+        "US"
+      ]
+    },
+    {
+      "id": "feature_automation",
+      "name": "Automation",
+      "description": "Workflow automation.",
+      "enabledCountries": [
+        "Global"
+      ]
+    },
+    {
+      "id": "feature_calendar",
+      "name": "Calendar",
+      "description": "Calendar view.",
+      "enabledCountries": [
+        "Global"
+      ]
+    },
+    {
+      "id": "feature_assets",
+      "name": "Assets",
+      "description": "Digital asset management.",
+      "enabledCountries": [
+        "Global"
+      ]
+    },
+    {
+      "id": "feature_social",
+      "name": "Social",
+      "description": "Social media management.",
+      "enabledCountries": [
+        "Global"
+      ]
+    },
+    {
+      "id": "feature_forms",
+      "name": "Forms",
+      "description": "Form builder and submissions.",
+      "enabledCountries": [
+        "Global"
+      ]
+    },
+    {
+      "id": "feature_deals",
+      "name": "Deals",
+      "description": "Sales pipeline and deals.",
+      "enabledCountries": [
+        "Global"
+      ]
+    },
+    {
+      "id": "ff_beta_dashboard",
+      "name": "Beta Dashboard",
+      "description": "New dashboard layout with AI insights.",
+      "enabledCountries": [
+        "US",
+        "UK"
+      ]
+    },
+    {
+      "id": "ff_dark_mode_v2",
+      "name": "Dark Mode V2",
+      "description": "Enhanced contrast dark mode.",
+      "enabledCountries": [
+        "Global"
+      ]
+    },
+    {
+      "id": "ff_sms_campaigns",
+      "name": "SMS Campaigns",
+      "description": "Ability to send SMS campaigns.",
+      "enabledCountries": [
+        "Global"
+      ]
+    },
+    {
+      "id": "feature_infographics",
+      "name": "Infographics",
+      "description": "AI Infographics Generator.",
+      "enabledCountries": [
+        "Global"
+      ]
+    }
+  ],
+  "segments": [
+    {
+      "id": "1",
+      "name": "New Subscribers",
+      "count": 120
+    },
+    {
+      "id": "2",
+      "name": "VIP Customers",
+      "count": 45
+    },
+    {
+      "id": "3",
+      "name": "Churn Risk",
+      "count": 12
+    },
+    {
+      "id": "4",
+      "name": "Global Users",
+      "count": 340
+    },
+    {
+      "id": "5",
+      "name": "Tech Enthusiasts",
+      "count": 89
+    }
+  ],
   "promotions": [
     {
       "id": "1",
@@ -785,41 +966,95 @@
   "users": [
     {
       "id": "u1",
-      "name": "John Doe",
-      "email": "john@visionary.com",
+      "name": "Kwesi Appiah",
+      "email": "kwesi@echohouse.com",
       "role": "Super Admin",
-      "avatar": "https://ui-avatars.com/api/?name=John+Doe&background=6366f1&color=fff",
+      "avatar": "https://ui-avatars.com/api/?name=Kwesi+Appiah&background=6366f1&color=fff",
       "assignedCountries": [
         "Global",
-        "US",
-        "UK",
-        "DE",
-        "FR",
-        "JP"
+        "GH",
+        "NG",
+        "CI",
+        "ZA",
+        "BJ",
+        "TG"
+      ],
+      "assignedDepartments": [
+        "creative",
+        "media",
+        "strategy",
+        "digital",
+        "production",
+        "client_services",
+        "data_analytics",
+        "finance_ops"
       ],
       "password": "password123",
       "hasCompletedOnboarding": true
     },
     {
       "id": "u2",
-      "name": "Sarah Smith",
-      "email": "sarah@visionary.com",
+      "name": "Adaeze Nwosu",
+      "email": "adaeze@echohouse.com",
       "role": "Country Manager",
-      "avatar": "https://ui-avatars.com/api/?name=Sarah+Smith&background=10b981&color=fff",
+      "avatar": "https://ui-avatars.com/api/?name=Adaeze+Nwosu&background=10b981&color=fff",
       "assignedCountries": [
-        "UK"
+        "NG"
+      ],
+      "assignedDepartments": [
+        "creative",
+        "media",
+        "strategy",
+        "digital",
+        "production",
+        "client_services",
+        "data_analytics",
+        "finance_ops"
       ],
       "password": "password123",
       "hasCompletedOnboarding": true
     },
     {
       "id": "u3",
-      "name": "Mike Jones",
-      "email": "mike@visionary.com",
-      "role": "Marketing Specialist",
-      "avatar": "https://ui-avatars.com/api/?name=Mike+Jones&background=f59e0b&color=fff",
+      "name": "Yaw Mensah",
+      "email": "yaw@echohouse.com",
+      "role": "Department Lead",
+      "avatar": "https://ui-avatars.com/api/?name=Yaw+Mensah&background=f59e0b&color=fff",
       "assignedCountries": [
-        "US"
+        "GH"
+      ],
+      "assignedDepartments": [
+        "creative"
+      ],
+      "password": "password123",
+      "hasCompletedOnboarding": true
+    },
+    {
+      "id": "u4",
+      "name": "Amina Diop",
+      "email": "amina@echohouse.com",
+      "role": "Department Lead",
+      "avatar": "https://ui-avatars.com/api/?name=Amina+Diop&background=ec4899&color=fff",
+      "assignedCountries": [
+        "CI"
+      ],
+      "assignedDepartments": [
+        "digital"
+      ],
+      "password": "password123",
+      "hasCompletedOnboarding": true
+    },
+    {
+      "id": "u5",
+      "name": "Thandi Mthembu",
+      "email": "thandi@echohouse.com",
+      "role": "Staff",
+      "avatar": "https://ui-avatars.com/api/?name=Thandi+Mthembu&background=8b5cf6&color=fff",
+      "assignedCountries": [
+        "ZA"
+      ],
+      "assignedDepartments": [
+        "finance_ops"
       ],
       "password": "password123",
       "hasCompletedOnboarding": true
@@ -832,170 +1067,76 @@
       "flag": "🌍"
     },
     {
-      "code": "US",
-      "name": "United States",
-      "flag": "🇺🇸"
+      "code": "GH",
+      "name": "Ghana",
+      "flag": "🇬🇭"
     },
     {
-      "code": "UK",
-      "name": "United Kingdom",
-      "flag": "🇬🇧"
+      "code": "NG",
+      "name": "Nigeria",
+      "flag": "🇳🇬"
     },
     {
-      "code": "DE",
-      "name": "Germany",
-      "flag": "🇩🇪"
+      "code": "CI",
+      "name": "Ivory Coast",
+      "flag": "🇨🇮"
     },
     {
-      "code": "FR",
-      "name": "France",
-      "flag": "🇫🇷"
+      "code": "ZA",
+      "name": "South Africa",
+      "flag": "🇿🇦"
     },
     {
-      "code": "JP",
-      "name": "Japan",
-      "flag": "🇯🇵"
+      "code": "BJ",
+      "name": "Benin",
+      "flag": "🇧🇯"
+    },
+    {
+      "code": "TG",
+      "name": "Togo",
+      "flag": "🇹🇬"
     }
   ],
-  "featureFlags": [
+  "departments": [
     {
-      "id": "feature_dashboard",
-      "name": "Dashboard",
-      "description": "Access to the main dashboard.",
-      "enabledCountries": [
-        "Global"
-      ]
+      "id": "creative",
+      "name": "Creative",
+      "description": "Design, copywriting, branding, content creation"
     },
     {
-      "id": "feature_projects",
-      "name": "Projects",
-      "description": "Project management module.",
-      "enabledCountries": [
-        "Global"
-      ]
+      "id": "media",
+      "name": "Media & Advertising",
+      "description": "Paid media buying, campaign management, PPC"
     },
     {
-      "id": "feature_contacts",
-      "name": "Contacts",
-      "description": "CRM contacts management.",
-      "enabledCountries": [
-        "Global"
-      ]
+      "id": "strategy",
+      "name": "Strategy & Planning",
+      "description": "Account strategy, brand planning, market research"
     },
     {
-      "id": "feature_campaigns",
-      "name": "Campaigns",
-      "description": "Marketing campaigns module.",
-      "enabledCountries": [
-        "US",
-        "UK"
-      ]
+      "id": "digital",
+      "name": "Digital & Social",
+      "description": "Social media management, SEO, web development"
     },
     {
-      "id": "feature_events",
-      "name": "Events",
-      "description": "Event management module.",
-      "enabledCountries": [
-        "Global"
-      ]
+      "id": "production",
+      "name": "Production",
+      "description": "Events, video production, photography"
     },
     {
-      "id": "feature_promotions",
-      "name": "Promotions",
-      "description": "Promotions and offers.",
-      "enabledCountries": [
-        "Global"
-      ]
+      "id": "client_services",
+      "name": "Client Services",
+      "description": "Account management, client relationships"
     },
     {
-      "id": "feature_tasks",
-      "name": "Tasks",
-      "description": "Task management.",
-      "enabledCountries": [
-        "Global"
-      ]
+      "id": "data_analytics",
+      "name": "Data & Analytics",
+      "description": "Reporting, performance analysis, insights"
     },
     {
-      "id": "feature_advisor",
-      "name": "Advisor",
-      "description": "AI Advisor.",
-      "enabledCountries": [
-        "US"
-      ]
-    },
-    {
-      "id": "feature_automation",
-      "name": "Automation",
-      "description": "Workflow automation.",
-      "enabledCountries": [
-        "Global"
-      ]
-    },
-    {
-      "id": "feature_calendar",
-      "name": "Calendar",
-      "description": "Calendar view.",
-      "enabledCountries": [
-        "Global"
-      ]
-    },
-    {
-      "id": "feature_assets",
-      "name": "Assets",
-      "description": "Digital asset management.",
-      "enabledCountries": [
-        "Global"
-      ]
-    },
-    {
-      "id": "feature_social",
-      "name": "Social",
-      "description": "Social media management.",
-      "enabledCountries": [
-        "Global"
-      ]
-    },
-    {
-      "id": "feature_forms",
-      "name": "Forms",
-      "description": "Form builder and submissions.",
-      "enabledCountries": [
-        "Global"
-      ]
-    },
-    {
-      "id": "feature_deals",
-      "name": "Deals",
-      "description": "Sales pipeline and deals.",
-      "enabledCountries": [
-        "Global"
-      ]
-    },
-    {
-      "id": "ff_beta_dashboard",
-      "name": "Beta Dashboard",
-      "description": "New dashboard layout with AI insights.",
-      "enabledCountries": [
-        "US",
-        "UK",
-        "Global"
-      ]
-    },
-    {
-      "id": "ff_dark_mode_v2",
-      "name": "Dark Mode V2",
-      "description": "Enhanced contrast dark mode.",
-      "enabledCountries": [
-        "Global"
-      ]
-    },
-    {
-      "id": "ff_sms_campaigns",
-      "name": "SMS Campaigns",
-      "description": "Ability to send SMS campaigns.",
-      "enabledCountries": [
-        "Global"
-      ]
+      "id": "finance_ops",
+      "name": "Finance & Operations",
+      "description": "HR, payroll, admin, legal"
     }
   ],
   "currentUserId": "u1",

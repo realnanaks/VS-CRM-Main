@@ -7,6 +7,12 @@ export interface Country {
   flag: string;
 }
 
+export interface Department {
+  id: string;
+  name: string;
+  description: string;
+}
+
 export type Theme = 'indigo' | 'rose' | 'emerald' | 'amber' | 'violet' | 'sky' | 'slate';
 
 export interface Contact {
@@ -18,6 +24,7 @@ export interface Contact {
   lastContact: string;
   avatar: string;
   country: CountryCode;
+  department?: string;
   score: number; // 0-100
   scoreReason?: string;
 }
@@ -123,7 +130,7 @@ export interface Journey {
   country: CountryCode;
 }
 
-export type Role = 'Super Admin' | 'Country Manager' | 'Employee';
+export type Role = 'Super Admin' | 'Country Manager' | 'Department Lead' | 'Staff';
 
 export interface User {
   id: string;
@@ -132,6 +139,7 @@ export interface User {
   role: Role;
   avatar: string;
   assignedCountries: CountryCode[];
+  assignedDepartments?: string[];
   hasCompletedOnboarding?: boolean;
 }
 
@@ -284,11 +292,78 @@ export interface ChatMessage {
   timestamp: number;
 }
 
-export type AppView = 'dashboard' | 'beta_dashboard' | 'projects' | 'contacts' | 'campaigns' | 'advisor' | 'tasks' | 'promotions' | 'automation' | 'calendar' | 'assets' | 'settings' | 'events' | 'social' | 'forms' | 'deals' | 'infographics';
+export type AppView = 'dashboard' | 'beta_dashboard' | 'projects' | 'contacts' | 'campaigns' | 'advisor' | 'tasks' | 'promotions' | 'automation' | 'calendar' | 'assets' | 'settings' | 'events' | 'social' | 'forms' | 'deals' | 'infographics' | 'files' | 'departments' | 'migration';
 
 export interface FeatureFlag {
   id: string;
   name: string;
   description: string;
   enabledCountries: CountryCode[];
+}
+
+// Google Drive Types
+export interface DriveFolder {
+  id: string;
+  name: string;
+  country: CountryCode;
+  department: string | null;
+  path: string;
+  permissions: ('read' | 'write' | 'delete')[];
+}
+
+export interface DriveFile {
+  id: string;
+  name: string;
+  mimeType: string;
+  size?: number;
+  createdTime: string;
+  modifiedTime: string;
+  webViewLink?: string;
+  thumbnailLink?: string;
+}
+
+// Legacy Migration Types
+export type MigrationStatus = 'not-started' | 'uploading' | 'classifying' | 'reviewing' | 'importing' | 'complete';
+export type ClassificationStatus = 'pending' | 'auto-approved' | 'needs-review' | 'approved' | 'rejected';
+export type DepartmentId = 'creative' | 'media' | 'strategy' | 'digital' | 'production' | 'client_services' | 'data_analytics' | 'finance' | 'operations' | 'hr' | 'technology' | 'business_dev';
+
+export interface LegacyFile {
+  id: string;
+  name: string;
+  size: number;
+  type: string;
+  uploadProgress?: number;
+  suggestedCountry?: CountryCode;
+  suggestedDepartment?: DepartmentId;
+  suggestedType?: string;
+  confidenceScore?: number;
+  status: ClassificationStatus;
+  extractedData?: any;
+  uploadedAt?: string;
+}
+
+export interface MigrationSession {
+  id: string;
+  status: MigrationStatus;
+  startedAt: string;
+  completedAt?: string;
+  totalFiles: number;
+  processedFiles: number;
+  autoApproved: number;
+  needsReview: number;
+  files: LegacyFile[];
+  extractedRecords?: {
+    contacts: number;
+    campaigns: number;
+    projects: number;
+    deals: number;
+  };
+}
+
+export interface CloudStorageConnection {
+  connected: boolean;
+  email?: string;
+  rootFolderId?: string;
+  folderName?: string;
+  connectedAt?: string;
 }

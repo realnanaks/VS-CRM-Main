@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Users, Mail, MousePointer2, DollarSign, Sparkles, BrainCircuit, TrendingUp, PieChart as PieChartIcon, Target, Download } from 'lucide-react';
+import { Users, Mail, MousePointer2, DollarSign, Sparkles, BrainCircuit, TrendingUp, PieChart as PieChartIcon, Target, Download, Shield, Activity, Crown, Coffee, Zap } from 'lucide-react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, Cell, PieChart, Pie } from 'recharts';
 import { toJpeg } from 'html-to-image';
 import { useRef, useCallback } from 'react';
@@ -10,6 +10,13 @@ import { TrafficOverview } from './dashboard/TrafficOverview';
 import { CampaignConversions } from './dashboard/CampaignConversions';
 import { RiskLogicFlow } from './dashboard/RiskLogicFlow';
 import { ZScoreTable } from './dashboard/ZScoreTable';
+import { DataPipelineFlow } from './dashboard/DataPipelineFlow';
+import { RiskArchitectureFlow } from './dashboard/RiskArchitectureFlow';
+import { PartitionStrategyDiagram } from './dashboard/PartitionStrategyDiagram';
+import { PlayerArchetypesInfographic } from './dashboard/PlayerArchetypesInfographic';
+import { RiskIndicatorsInfographic } from './dashboard/RiskIndicatorsInfographic';
+import { SegmentationPyramid } from './dashboard/SegmentationPyramid';
+import { PredictionFrameworkDiagram } from './dashboard/PredictionFrameworkDiagram';
 import { cn } from '../utils/cn';
 
 interface BetaDashboardProps {
@@ -67,22 +74,29 @@ export const BetaDashboard: React.FC<BetaDashboardProps> = ({ country }) => {
     ];
 
     const revenueDistributionData = [
-        { name: 'Casual', population: 80, revenue: 20, popLabel: '80%', revLabel: '20%', amount: 'KSh 20M' },
-        { name: 'Core', population: 16, revenue: 16, popLabel: '16%', revLabel: '16%', amount: 'KSh 16M' },
-        { name: 'Whales', population: 4, revenue: 64, popLabel: '4%', revLabel: '64%', amount: 'KSh 64M' },
+        { name: 'Casual', population: 60, revenue: 5, popLabel: '60%', revLabel: '5%', amount: 'KSh 5M' },
+        { name: 'Core', population: 30, revenue: 15, popLabel: '30%', revLabel: '15%', amount: 'KSh 15M' },
+        { name: 'High Rollers', population: 8, revenue: 30, popLabel: '8%', revLabel: '30%', amount: 'KSh 30M' },
+        { name: 'VIP', population: 2, revenue: 50, popLabel: '2%', revLabel: '50%', amount: 'KSh 50M' },
     ];
 
     const segmentationData = [
-        { name: 'Casual', value: 80, color: '#94a3b8' },
-        { name: 'Core', value: 18, color: '#818cf8' },
-        { name: 'Whales', value: 2, color: '#4f46e5' },
+        { name: 'Casual', value: 60, color: '#94a3b8' },
+        { name: 'Core', value: 30, color: '#818cf8' },
+        { name: 'High Rollers', value: 8, color: '#4f46e5' },
+        { name: 'VIP', value: 2, color: '#312e81' },
     ];
 
     const barChartRef = useRef<HTMLDivElement>(null);
     const pieChartRef = useRef<HTMLDivElement>(null);
     const riskFlowRef = useRef<HTMLDivElement>(null);
+    const riskArchRef = useRef<HTMLDivElement>(null);
     const dashboardRef = useRef<HTMLDivElement>(null);
     const segmentationRef = useRef<HTMLDivElement>(null);
+    const partitionRef = useRef<HTMLDivElement>(null);
+    const archetypesRef = useRef<HTMLDivElement>(null);
+    const riskIndicatorsRef = useRef<HTMLDivElement>(null);
+    const frameworkRef = useRef<HTMLDivElement>(null);
 
     const handleExport = useCallback((ref: React.RefObject<HTMLDivElement | null>, fileName: string) => {
         if (ref.current === null) {
@@ -223,29 +237,48 @@ export const BetaDashboard: React.FC<BetaDashboardProps> = ({ country }) => {
                         </BarChart>
                     </ResponsiveContainer>
                 </div>
-                <div className="grid grid-cols-3 gap-4 mt-6 border-t border-slate-100 pt-6">
+                <div className="grid grid-cols-4 gap-4 mt-6 border-t border-slate-100 pt-6">
                     <div className="text-center">
                         <div className="text-xs font-medium text-slate-500 uppercase tracking-wider mb-1">Casual</div>
-                        <div className="text-2xl font-bold text-slate-700">80%</div>
-                        <div className="text-sm font-semibold text-indigo-600 mt-1">KSh 20M</div>
-                        <div className="text-xs text-slate-400 mt-1">of players generate 20% rev</div>
+                        <div className="text-2xl font-bold text-slate-700">60%</div>
+                        <div className="text-sm font-semibold text-indigo-600 mt-1">KSh 5M</div>
+                        <div className="text-xs text-slate-400 mt-1">Rec. players</div>
                     </div>
                     <div className="text-center border-l border-slate-100">
                         <div className="text-xs font-medium text-slate-500 uppercase tracking-wider mb-1">Core</div>
-                        <div className="text-2xl font-bold text-indigo-600">16%</div>
-                        <div className="text-sm font-semibold text-indigo-600 mt-1">KSh 16M</div>
-                        <div className="text-xs text-slate-400 mt-1">balanced engagement</div>
+                        <div className="text-2xl font-bold text-indigo-500">30%</div>
+                        <div className="text-sm font-semibold text-indigo-600 mt-1">KSh 15M</div>
+                        <div className="text-xs text-slate-400 mt-1">Steady eng.</div>
                     </div>
                     <div className="text-center border-l border-slate-100">
-                        <div className="text-xs font-medium text-slate-500 uppercase tracking-wider mb-1">Whales</div>
-                        <div className="text-2xl font-bold text-emerald-600">64%</div>
-                        <div className="text-sm font-semibold text-emerald-600 mt-1">KSh 64M</div>
-                        <div className="text-xs text-slate-400 mt-1">of revenue from 4% players</div>
+                        <div className="text-xs font-medium text-slate-500 uppercase tracking-wider mb-1">High Rollers</div>
+                        <div className="text-2xl font-bold text-indigo-700">8%</div>
+                        <div className="text-sm font-semibold text-indigo-700 mt-1">KSh 30M</div>
+                        <div className="text-xs text-slate-400 mt-1">High vol.</div>
+                    </div>
+                    <div className="text-center border-l border-slate-100">
+                        <div className="text-xs font-medium text-slate-500 uppercase tracking-wider mb-1">VIP</div>
+                        <div className="text-2xl font-bold text-indigo-900">2%</div>
+                        <div className="text-sm font-semibold text-indigo-900 mt-1">KSh 50M</div>
+                        <div className="text-xs text-slate-400 mt-1">Dominant GGR</div>
                     </div>
                 </div>
             </div>
 
             {/* Player Segmentation & Attributes */}
+            <div className="flex items-center justify-between">
+                <h3 className="text-lg font-bold text-slate-900 flex items-center gap-2">
+                    <Target className="text-indigo-600" size={20} />
+                    Simulated Player Segmentation Framework
+                </h3>
+                <button
+                    onClick={() => handleExport(segmentationRef, 'segmentation-framework')}
+                    className="export-exclude flex items-center gap-1.5 text-xs font-medium text-indigo-600 hover:text-indigo-700 bg-indigo-50 hover:bg-indigo-100 px-3 py-1.5 rounded-md transition-colors"
+                >
+                    <Download size={14} />
+                    Export JPG
+                </button>
+            </div>
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6" ref={segmentationRef}>
                 {/* Chart */}
                 <div className="bg-white rounded-xl border border-slate-200 p-6 shadow-sm lg:col-span-1 h-fit">
@@ -285,96 +318,11 @@ export const BetaDashboard: React.FC<BetaDashboardProps> = ({ country }) => {
 
                 {/* Attributes Details */}
                 <div className="bg-white rounded-xl border border-slate-200 p-6 shadow-sm lg:col-span-2">
-                    <h3 className="text-lg font-bold text-slate-900 mb-6">Profile Attributes</h3>
-                    <div className="grid gap-4">
-                        {/* Casual */}
-                        <div className="flex flex-col gap-3 p-4 rounded-lg bg-slate-50 border border-slate-100">
-                            <div className="flex items-center gap-3">
-                                <div className="w-2 h-8 rounded-full bg-slate-300"></div>
-                                <div>
-                                    <div className="font-bold text-slate-900">Casual Players ("Trivial Many")</div>
-                                    <div className="text-sm text-slate-500">80% Population</div>
-                                </div>
-                            </div>
-                            <p className="text-sm text-slate-600 italic border-l-2 border-slate-200 pl-3 my-1">
-                                "Recreational, entertainment-driven users with minimal financial commitment and sporadic engagement."
-                            </p>
-                            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-2">
-                                <div>
-                                    <div className="text-xs text-slate-400 uppercase tracking-wider font-semibold">Deposits</div>
-                                    <div className="font-medium text-slate-700 text-sm">&lt; 2 per month</div>
-                                    <div className="text-xs text-slate-400">Avg 0.8–1.2</div>
-                                </div>
-                                <div>
-                                    <div className="text-xs text-slate-400 uppercase tracking-wider font-semibold">Stakes</div>
-                                    <div className="font-medium text-slate-700 text-sm">KSh 10 – KSh 500</div>
-                                </div>
-                                <div>
-                                    <div className="text-xs text-slate-400 uppercase tracking-wider font-semibold">Sessions</div>
-                                    <div className="font-medium text-slate-700 text-sm">1–3 per month</div>
-                                </div>
-                            </div>
-                        </div>
-
-                        {/* Core */}
-                        <div className="flex flex-col gap-3 p-4 rounded-lg bg-indigo-50 border border-indigo-100">
-                            <div className="flex items-center gap-3">
-                                <div className="w-2 h-8 rounded-full bg-indigo-400"></div>
-                                <div>
-                                    <div className="font-bold text-slate-900">Core Players ("Vital Few")</div>
-                                    <div className="text-sm text-slate-500">16% Population</div>
-                                </div>
-                            </div>
-                            <p className="text-sm text-indigo-800 italic border-l-2 border-indigo-200 pl-3 my-1">
-                                "Habitual players for whom gambling is a regular hobby; consistent weekly activity and predictable deposit patterns."
-                            </p>
-                            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-2">
-                                <div>
-                                    <div className="text-xs text-indigo-400 uppercase tracking-wider font-semibold">Deposits</div>
-                                    <div className="font-medium text-slate-700 text-sm">4–12 per month</div>
-                                </div>
-                                <div>
-                                    <div className="text-xs text-indigo-400 uppercase tracking-wider font-semibold">Stakes</div>
-                                    <div className="font-medium text-slate-700 text-sm">KSh 500 – KSh 5,000</div>
-                                </div>
-                                <div>
-                                    <div className="text-xs text-indigo-400 uppercase tracking-wider font-semibold">Sessions</div>
-                                    <div className="font-medium text-slate-700 text-sm">12–25 per month</div>
-                                </div>
-                            </div>
-                        </div>
-
-                        {/* Whales */}
-                        <div className="flex flex-col gap-3 p-4 rounded-lg bg-indigo-900 border border-indigo-800">
-                            <div className="flex items-center gap-3">
-                                <div className="w-2 h-8 rounded-full bg-indigo-500"></div>
-                                <div>
-                                    <div className="font-bold text-white">High Rollers / "Whales"</div>
-                                    <div className="text-sm text-indigo-200">4% Population</div>
-                                </div>
-                            </div>
-                            <p className="text-sm text-indigo-100 italic border-l-2 border-indigo-500 pl-3 my-1">
-                                "The extreme heavy tail of the power-law distribution; drive the majority of revenue through very high stakes and session velocity."
-                            </p>
-                            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-2">
-                                <div>
-                                    <div className="text-xs text-indigo-300 uppercase tracking-wider font-semibold">Deposits</div>
-                                    <div className="font-medium text-white text-sm">15+ per month</div>
-                                    <div className="text-xs text-indigo-400">&gt; KSh 50,000 total</div>
-                                </div>
-                                <div>
-                                    <div className="text-xs text-indigo-300 uppercase tracking-wider font-semibold">Stakes</div>
-                                    <div className="font-medium text-white text-sm">&gt; KSh 10,000</div>
-                                </div>
-                                <div>
-                                    <div className="text-xs text-indigo-300 uppercase tracking-wider font-semibold">Sessions</div>
-                                    <div className="font-medium text-white text-sm">Daily, multiple hours</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    <h3 className="text-lg font-bold text-slate-900 mb-6">Profile Attributes Calibrated to the Kenyan Market</h3>
+                    <SegmentationPyramid />
                 </div>
-            </div >
+            </div>
+
 
             {/* Risk Logic Flow Section */}
             <div className="bg-white rounded-xl border border-slate-200 p-6 shadow-sm">
@@ -397,6 +345,109 @@ export const BetaDashboard: React.FC<BetaDashboardProps> = ({ country }) => {
 
                 <div className="mt-6 pt-6 border-t border-slate-100">
                     <ZScoreTable />
+                </div>
+            </div>
+
+            {/* High Level Risk Architecture */}
+            <div className="bg-white rounded-xl border border-slate-200 p-6 shadow-sm">
+                <div className="flex items-center justify-between mb-6">
+                    <h3 className="text-lg font-bold text-slate-900 flex items-center gap-2">
+                        <Shield className="text-indigo-600" size={20} />
+                        High-Level Risk Architecture
+                    </h3>
+                    <button
+                        onClick={() => handleExport(riskArchRef, 'risk-architecture-flow')}
+                        className="export-exclude flex items-center gap-1.5 text-xs font-medium text-indigo-600 hover:text-indigo-700 bg-indigo-50 hover:bg-indigo-100 px-3 py-1.5 rounded-md transition-colors"
+                    >
+                        <Download size={14} />
+                        Export JPG
+                    </button>
+                </div>
+                <div ref={riskArchRef} className="bg-white p-2 rounded-lg">
+                    <RiskArchitectureFlow />
+                </div>
+            </div>
+
+            {/* ML Data Pipeline Flow */}
+            <DataPipelineFlow />
+
+            {/* Conceptual Framework Diagram */}
+            <div className="bg-white rounded-xl border border-slate-200 p-6 shadow-sm">
+                <div className="flex items-center justify-between mb-6">
+                    <h3 className="text-lg font-bold text-slate-900 flex items-center gap-2">
+                        <BrainCircuit className="text-indigo-600" size={20} />
+                        Conceptual Framework for Predicting Promotional Offers
+                    </h3>
+                    <button
+                        onClick={() => handleExport(frameworkRef, 'prediction-framework')}
+                        className="export-exclude flex items-center gap-1.5 text-xs font-medium text-indigo-600 hover:text-indigo-700 bg-indigo-50 hover:bg-indigo-100 px-3 py-1.5 rounded-md transition-colors"
+                    >
+                        <Download size={14} />
+                        Export JPG
+                    </button>
+                </div>
+                <div ref={frameworkRef} className="bg-white p-2 rounded-lg">
+                    <PredictionFrameworkDiagram />
+                </div>
+            </div>
+
+            {/* Partitioning Strategy Diagram */}
+            <div className="bg-white rounded-xl border border-slate-200 p-6 shadow-sm">
+                <div className="flex items-center justify-between mb-6">
+                    <h3 className="text-lg font-bold text-slate-900 flex items-center gap-2">
+                        <Shield className="text-indigo-600" size={20} />
+                        Partitioning Strategy
+                    </h3>
+                    <button
+                        onClick={() => handleExport(partitionRef, 'partitioning-strategy')}
+                        className="export-exclude flex items-center gap-1.5 text-xs font-medium text-indigo-600 hover:text-indigo-700 bg-indigo-50 hover:bg-indigo-100 px-3 py-1.5 rounded-md transition-colors"
+                    >
+                        <Download size={14} />
+                        Export JPG
+                    </button>
+                </div>
+                <div ref={partitionRef} className="bg-white p-2 rounded-lg">
+                    <PartitionStrategyDiagram />
+                </div>
+            </div>
+
+            {/* Archetypes & Strategies Infographic */}
+            <div className="bg-white rounded-xl border border-slate-200 p-6 shadow-sm">
+                <div className="flex items-center justify-between mb-6">
+                    <h3 className="text-lg font-bold text-slate-900 flex items-center gap-2">
+                        <Users className="text-indigo-600" size={20} />
+                        Interpretable Player Archetypes & Ethical Safeguards
+                    </h3>
+                    <button
+                        onClick={() => handleExport(archetypesRef, 'player-archetypes-infographic')}
+                        className="export-exclude flex items-center gap-1.5 text-xs font-medium text-indigo-600 hover:text-indigo-700 bg-indigo-50 hover:bg-indigo-100 px-3 py-1.5 rounded-md transition-colors"
+                    >
+                        <Download size={14} />
+                        Export JPG
+                    </button>
+                </div>
+                <div ref={archetypesRef} className="bg-white p-2 rounded-lg">
+                    <PlayerArchetypesInfographic />
+                </div>
+            </div>
+
+            {/* Risk Indicators Infographic */}
+            <div className="bg-white rounded-xl border border-slate-200 p-6 shadow-sm">
+                <div className="flex items-center justify-between mb-6">
+                    <h3 className="text-lg font-bold text-slate-900 flex items-center gap-2">
+                        <Activity className="text-indigo-600" size={20} />
+                        Behavioral Risk Indicators
+                    </h3>
+                    <button
+                        onClick={() => handleExport(riskIndicatorsRef, 'risk-indicators-infographic')}
+                        className="export-exclude flex items-center gap-1.5 text-xs font-medium text-indigo-600 hover:text-indigo-700 bg-indigo-50 hover:bg-indigo-100 px-3 py-1.5 rounded-md transition-colors"
+                    >
+                        <Download size={14} />
+                        Export JPG
+                    </button>
+                </div>
+                <div ref={riskIndicatorsRef} className="bg-white p-2 rounded-lg">
+                    <RiskIndicatorsInfographic />
                 </div>
             </div>
 

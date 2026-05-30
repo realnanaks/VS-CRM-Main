@@ -1,7 +1,8 @@
-import React, { useRef } from 'react';
-import { Code, Download, Cloud, Check, Upload } from 'lucide-react';
+import React, { useRef, useState } from 'react';
+import { Code, Download, Cloud, Check, Upload, BarChart3 } from 'lucide-react';
 import { Button } from '../ui/Button';
 import { cn } from '../../utils/cn';
+import { DataArchitectureInfographic } from '../DataArchitectureInfographic';
 
 interface DataIntegrationsProps {
     isDriveConnected: boolean;
@@ -23,6 +24,7 @@ export const DataIntegrations: React.FC<DataIntegrationsProps> = ({
     onRestoreDatabase
 }) => {
     const fileInputRef = useRef<HTMLInputElement>(null);
+    const [showArchitecture, setShowArchitecture] = useState(false);
 
     const handleImportClick = () => {
         fileInputRef.current?.click();
@@ -63,6 +65,51 @@ export const DataIntegrations: React.FC<DataIntegrationsProps> = ({
                 </div>
             </div>
 
+            {/* Data Architecture */}
+            <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+                <div className="px-6 py-4 border-b border-gray-200 bg-gradient-to-r from-indigo-50 to-blue-50">
+                    <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-3">
+                            <div className="h-10 w-10 bg-indigo-100 text-indigo-600 rounded-lg flex items-center justify-center">
+                                <BarChart3 size={20} />
+                            </div>
+                            <div>
+                                <h3 className="font-semibold text-gray-900">Data Architecture</h3>
+                                <p className="text-xs text-gray-600">View the complete 4-tier data flow</p>
+                            </div>
+                        </div>
+                        <Button 
+                            onClick={() => setShowArchitecture(!showArchitecture)}
+                            variant="secondary"
+                        >
+                            {showArchitecture ? 'Hide' : 'View'} Architecture
+                        </Button>
+                    </div>
+                </div>
+                
+                {showArchitecture && (
+                    <div className="p-6">
+                        <DataArchitectureInfographic />
+                    </div>
+                )}
+                
+                {!showArchitecture && (
+                    <div className="p-6">
+                        <div className="text-center py-8">
+                            <div className="text-5xl mb-3">📊</div>
+                            <p className="text-gray-600 mb-4">
+                                Visualize how data flows from 6 sources through 4 processing tiers to AI insights
+                            </p>
+                            <div className="flex items-center justify-center gap-2 text-sm text-gray-500 flex-wrap">
+                                <span className="px-3 py-1 bg-blue-100 text-blue-700 rounded-full">6 Data Sources</span>
+                                <span className="px-3 py-1 bg-green-100 text-green-700 rounded-full">4 Tiers</span>
+                                <span className="px-3 py-1 bg-purple-100 text-purple-700 rounded-full">81 Folders</span>
+                            </div>
+                        </div>
+                    </div>
+                )}
+            </div>
+
             {/* Cloud Integration */}
             <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
                 <div className="flex items-center justify-between">
@@ -86,6 +133,41 @@ export const DataIntegrations: React.FC<DataIntegrationsProps> = ({
                         ) : (
                             <Button onClick={onConnectDrive}>Connect Drive</Button>
                         )}
+                    </div>
+                </div>
+            </div>
+
+            {/* Legacy Migration */}
+            <div className="bg-gradient-to-r from-indigo-500 to-purple-500 rounded-xl shadow-lg p-6 text-white">
+                <div className="flex items-start justify-between">
+                    <div className="flex items-center gap-4">
+                        <div className="h-12 w-12 bg-white/20 rounded-lg flex items-center justify-center">
+                            <Upload size={24} />
+                        </div>
+                        <div>
+                            <h3 className="text-lg font-bold text-white">Legacy Data Migration</h3>
+                            <p className="text-sm text-indigo-100 mt-1">Import old files with AI-powered classification</p>
+                        </div>
+                    </div>
+                    <Button
+                        onClick={() => window.location.hash = 'migration'}
+                        className="bg-white text-indigo-600 hover:bg-indigo-50 border-none"
+                    >
+                        Start Migration →
+                    </Button>
+                </div>
+                <div className="mt-4 grid grid-cols-3 gap-3 text-sm">
+                    <div className="bg-white/10 rounded p-3">
+                        <div className="font-semibold">6-Step Wizard</div>
+                        <div className="text-xs text-indigo-100">Guided process</div>
+                    </div>
+                    <div className="bg-white/10 rounded p-3">
+                        <div className="font-semibold">AI Classification</div>
+                        <div className="text-xs text-indigo-100">Auto-categorize</div>
+                    </div>
+                    <div className="bg-white/10 rounded p-3">
+                        <div className="font-semibold">Data Extraction</div>
+                        <div className="text-xs text-indigo-100">Import to CRM</div>
                     </div>
                 </div>
             </div>

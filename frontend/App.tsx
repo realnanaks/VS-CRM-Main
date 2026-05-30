@@ -16,6 +16,9 @@ import { Social } from './components/Social';
 import { Forms } from './components/Forms';
 import { Deals } from './components/Deals';
 import { Infographics } from './components/Infographics';
+import Files from './components/Files';
+import { DepartmentHub } from './components/DepartmentHub';
+import LegacyMigration from './components/LegacyMigration';
 import { AppView, CountryCode, Theme, User } from './types';
 import { COUNTRIES, retrieveDashboardData, subscribeToStateChanges, initializeDatabase, getCurrentUser } from './services/data';
 import { Login } from './components/Login';
@@ -299,6 +302,9 @@ function App() {
               {currentView === 'forms' && <Forms country={selectedCountry} />}
               {currentView === 'deals' && <Deals country={selectedCountry} />}
               {currentView === 'infographics' && <Infographics />}
+              {currentView === 'files' && <Files />}
+              {currentView === 'departments' && <DepartmentHub country={selectedCountry} />}
+              {currentView === 'migration' && <LegacyMigration />}
             </div>
           </main>
         </div>

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { LayoutDashboard, Users, Megaphone, Bot, CheckSquare, Ticket, GitBranch, Calendar as CalendarIcon, Image as ImageIcon, Briefcase, Share2, FormInput, DollarSign, MapPin, ChevronDown, ChevronRight } from 'lucide-react';
+import { LayoutDashboard, Users, Megaphone, Bot, CheckSquare, Ticket, GitBranch, Calendar as CalendarIcon, Image as ImageIcon, Briefcase, Share2, FormInput, DollarSign, MapPin, ChevronDown, ChevronRight, FolderOpen, Building2 } from 'lucide-react';
 import { AppView, Theme, CountryCode } from '../../types';
 import { cn } from '../../utils/cn';
 import { useFeatureFlags } from '../../context/FeatureFlagContext';
@@ -112,6 +112,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, activeView, onViewChan
                     <NavItem view="beta_dashboard" icon={Bot} label="Beta Dashboard" featureFlag="ff_beta_dashboard" />
 
                     <NavGroup label="Workspace" defaultOpen={true}>
+                        <NavItem view="departments" icon={Building2} label="Department Hub" />
                         <NavItem view="projects" icon={Briefcase} label="Projects" featureFlag="feature_projects" />
                         <NavItem view="tasks" icon={CheckSquare} label="My Tasks" badge={taskCount > 0 ? taskCount : undefined} featureFlag="feature_tasks" />
                         <NavItem view="calendar" icon={CalendarIcon} label="Calendar" featureFlag="feature_calendar" />
@@ -134,6 +135,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, activeView, onViewChan
                     <NavGroup label="Automation & Assets" defaultOpen={true}>
                         <NavItem view="automation" icon={GitBranch} label="Journeys" featureFlag="feature_automation" />
                         <NavItem view="assets" icon={ImageIcon} label="Asset Library" featureFlag="feature_assets" />
+                        <NavItem view="files" icon={FolderOpen} label="Files" />
                     </NavGroup>
 
                     <NavGroup label="AI Intelligence" defaultOpen={true}>

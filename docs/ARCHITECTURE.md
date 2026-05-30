@@ -62,3 +62,36 @@ C4Context
 ### 4. Integrations
 - **Google Drive:** Two-way sync for project documentation.
 - **Feature Flags:** A built-in toggle system to enable/disable modules (Beta Dashboard, Dark Mode) dynamically per country or user.
+
+## Conceptual Frameworks
+
+### Promotional Offer Prediction Framework
+
+This diagram illustrates the logic flow from user behavior to tailored offer generation.
+
+![Promotional Offer Framework](./assets/promotional_framework_diagram.png)
+
+```mermaid
+graph LR
+    %% Layout Direction: Left to Right
+    
+    Input([Input Layer<br/>Player Behavioral Information])
+    Model([Model Layer<br/>Supervised ML Models])
+    Ethical([Ethical Layer<br/>Responsible Gambling Filter])
+    Output([Output Layer<br/>Tailor-made Offers])
+
+    Input --> Model
+    Model --> Ethical
+    Ethical --> Output
+
+    %% Styling
+    classDef input fill:#eff6ff,stroke:#2563eb,stroke-width:2px,color:#1e40af;
+    classDef model fill:#f3e8ff,stroke:#9333ea,stroke-width:2px,color:#6b21a8;
+    classDef ethical fill:#ecfdf5,stroke:#059669,stroke-width:2px,color:#065f46;
+    classDef output fill:#fffbeb,stroke:#d97706,stroke-width:2px,color:#92400e;
+
+    class Input input;
+    class Model model;
+    class Ethical ethical;
+    class Output output;
+```

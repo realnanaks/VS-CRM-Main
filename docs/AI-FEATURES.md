@@ -31,3 +31,23 @@ Automatically converts complex datasets into visual diagrams using Mermaid.js sy
 The Beta Dashboard uses simple regression models (Python/NumPy in backend) to forecast:
 - **Project Completion Risk:** Based on task velocity.
 - **Budget Burn Rate:** Predicting if a campaign will overspend.
+
+## 4. Heuristic Label Construction Pipeline
+
+This flowchart illustrates the logic used to determine the acceptance label for offers, ensuring that only genuine engagement results in a positive label.
+
+![Heuristic Label Construction Pipeline](./assets/heuristic_pipeline.png)
+
+<details>
+<summary>Mermaid Source Code</summary>
+
+```mermaid
+graph TD
+    Start[Offer Sent] --> Q1{Offer Claimed?}
+    Q1 -- No --> L0_NA[Label = 0<br>(Not Accepted)]
+    Q1 -- Yes --> Q2{Qualified Action Performed?<br>(minimum wager/deposit met)}
+    Q2 -- No --> L0_CNU[Label = 0<br>(Claimed but Not Used)]
+    Q2 -- Yes --> GBE[Genuine Behavioural Engagement]
+    GBE --> L1[Label = 1<br>(Accepted)]
+```
+</details>
