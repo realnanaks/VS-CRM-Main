@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { LayoutDashboard, Users, Megaphone, Bot, CheckSquare, Ticket, GitBranch, Calendar as CalendarIcon, Image as ImageIcon, Briefcase, Share2, FormInput, DollarSign, MapPin, ChevronDown, ChevronRight, FolderOpen, Building2 } from 'lucide-react';
+import { LayoutDashboard, Users, Megaphone, Bot, CheckSquare, Ticket, GitBranch, Calendar as CalendarIcon, Image as ImageIcon, Briefcase, Share2, FormInput, DollarSign, MapPin, ChevronDown, ChevronRight, FolderOpen, Building2, TrendingUp, Sparkles, Zap, Search, Target, Heart, FileText, MessageCircle, Brain, Network } from 'lucide-react';
 import { AppView, Theme, CountryCode } from '../../types';
 import { cn } from '../../utils/cn';
 import { useFeatureFlags } from '../../context/FeatureFlagContext';
@@ -109,38 +109,37 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, activeView, onViewChan
 
                 <nav className="flex-1 space-y-1 px-4 py-6 overflow-y-auto scrollbar-hide">
                     <NavItem view="dashboard" icon={LayoutDashboard} label="Dashboard" featureFlag="feature_dashboard" />
-                    <NavItem view="beta_dashboard" icon={Bot} label="Beta Dashboard" featureFlag="ff_beta_dashboard" />
+                    
 
                     <NavGroup label="Workspace" defaultOpen={true}>
+                        <NavItem view="beta_dashboard" icon={Bot} label="Beta Dashboard" featureFlag="ff_beta_dashboard" />
+                        <NavItem view="ai_hub" icon={Sparkles} label="Echo Intelligence Studio" />
                         <NavItem view="departments" icon={Building2} label="Department Hub" />
                         <NavItem view="projects" icon={Briefcase} label="Projects" featureFlag="feature_projects" />
                         <NavItem view="tasks" icon={CheckSquare} label="My Tasks" badge={taskCount > 0 ? taskCount : undefined} featureFlag="feature_tasks" />
                         <NavItem view="calendar" icon={CalendarIcon} label="Calendar" featureFlag="feature_calendar" />
                     </NavGroup>
 
-                    <NavGroup label="Marketing & Growth" defaultOpen={true}>
+                    {/* <NavGroup label="Marketing & Growth" defaultOpen={true}>
                         <NavItem view="campaigns" icon={Megaphone} label="Campaigns" featureFlag="feature_campaigns" />
                         <NavItem view="social" icon={Share2} label="Social Suite" featureFlag="feature_social" />
                         <NavItem view="events" icon={MapPin} label="Events" featureFlag="feature_events" />
                         <NavItem view="promotions" icon={Ticket} label="Promotions" featureFlag="feature_promotions" />
                         <NavItem view="forms" icon={FormInput} label="Lead Forms" featureFlag="feature_forms" />
                         <NavItem view="contacts" icon={Users} label="Contacts" featureFlag="feature_contacts" />
-                    </NavGroup>
+                    </NavGroup> */}
 
-                    <NavGroup label="Sales & Revenue" defaultOpen={true}>
+                    <NavGroup label="Sales & Revenue" defaultOpen={false}>
                         <NavItem view="deals" icon={DollarSign} label="Sales Pipeline" featureFlag="feature_deals" />
                         <NavItem view="infographics" icon={ImageIcon} label="Infographics" />
                     </NavGroup>
 
-                    <NavGroup label="Automation & Assets" defaultOpen={true}>
+                    <NavGroup label="Automation & Assets" defaultOpen={false}>
                         <NavItem view="automation" icon={GitBranch} label="Journeys" featureFlag="feature_automation" />
                         <NavItem view="assets" icon={ImageIcon} label="Asset Library" featureFlag="feature_assets" />
                         <NavItem view="files" icon={FolderOpen} label="Files" />
                     </NavGroup>
 
-                    <NavGroup label="AI Intelligence" defaultOpen={true}>
-                        <NavItem view="advisor" icon={Bot} label="Visionary Space AI" featureFlag="feature_advisor" />
-                    </NavGroup>
                 </nav>
             </div>
         </aside>

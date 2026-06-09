@@ -5,6 +5,18 @@ import { Contacts } from './components/Contacts';
 import { Campaigns } from './components/Campaigns';
 import { Advisor } from './components/Advisor';
 import { Tasks } from './components/Tasks';
+import PredictiveAnalytics from './components/ai/PredictiveAnalytics';
+import ContentIntelligence from './components/ai/ContentIntelligence';
+import IntelligentAutomation from './components/ai/IntelligentAutomation';
+import NaturalLanguageQuery from './components/ai/NaturalLanguageQuery';
+import CompetitiveIntelligence from './components/ai/CompetitiveIntelligence';
+import ClientIntelligence from './components/ai/ClientIntelligence';
+import SmartDocumentProcessing from './components/ai/SmartDocumentProcessing';
+import ConversationalReporting from './components/ai/ConversationalReporting';
+import AITrainingCenter from './components/ai/AITrainingCenter';
+import MultiAgentSystem from './components/ai/MultiAgentSystem';
+import EchoIntelligenceHub from './components/ai/EchoIntelligenceHub';
+import { ArrowLeft } from 'lucide-react';
 import { Promotions } from './components/Promotions';
 import { Automation } from './components/Automation';
 import { Calendar } from './components/Calendar';
@@ -285,6 +297,15 @@ function App() {
           {/* Main View Area */}
           <main className="flex-1 overflow-y-auto p-4 lg:p-8 scroll-smooth">
             <div className="mx-auto max-w-7xl h-full">
+              {(currentView === 'advisor' || (currentView.startsWith('ai_') && currentView !== 'ai_hub')) && (
+                <button
+                  onClick={() => setCurrentView('ai_hub')}
+                  className="mb-6 flex items-center gap-2 rounded-xl bg-slate-100 px-4 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-200 transition-all shadow-sm w-fit"
+                >
+                  <ArrowLeft size={16} />
+                  Back to AI Intelligence Hub
+                </button>
+              )}
               {currentView === 'dashboard' && <Dashboard country={selectedCountry} />}
               {currentView === 'beta_dashboard' && <BetaDashboard country={selectedCountry} />}
               {currentView === 'projects' && <Projects country={selectedCountry} />}
@@ -305,6 +326,17 @@ function App() {
               {currentView === 'files' && <Files />}
               {currentView === 'departments' && <DepartmentHub country={selectedCountry} />}
               {currentView === 'migration' && <LegacyMigration />}
+              {currentView === 'ai_hub' && <EchoIntelligenceHub />}
+              {currentView === 'ai_predictive' && <PredictiveAnalytics />}
+              {currentView === 'ai_content' && <ContentIntelligence />}
+              {currentView === 'ai_automation' && <IntelligentAutomation />}
+              {currentView === 'ai_query' && <NaturalLanguageQuery />}
+              {currentView === 'ai_competitive' && <CompetitiveIntelligence />}
+              {currentView === 'ai_clients' && <ClientIntelligence />}
+              {currentView === 'ai_documents' && <SmartDocumentProcessing />}
+              {currentView === 'ai_reporting' && <ConversationalReporting />}
+              {currentView === 'ai_training' && <AITrainingCenter />}
+              {currentView === 'ai_agents' && <MultiAgentSystem />}
             </div>
           </main>
         </div>

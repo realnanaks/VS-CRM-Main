@@ -1059,6 +1059,37 @@
       "password": "password123",
       "hasCompletedOnboarding": true
     }
+
+    {
+      "id": "u6",
+      "name": "Kofi Agyekum",
+      "email": "kofi@echohouse.com",
+      "role": "Super Admin",
+      "avatar": "https://ui-avatars.com/api/?name=Kwesi+Appiah&background=6366f1&color=fff",
+      "assignedCountries": [
+        "Global",
+        "GH",
+        "NG",
+        "CI",
+        "ZA",
+        "BJ",
+        "TG"
+      ],
+      "assignedDepartments": [
+        "creative",
+        "media",
+        "strategy",
+        "digital",
+        "production",
+        "client_services",
+        "data_analytics",
+        "finance_ops"
+      ],
+      "password": "echo",
+      "hasCompletedOnboarding": true
+    }
+
+
   ],
   "countries": [
     {

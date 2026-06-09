@@ -292,7 +292,7 @@ export interface ChatMessage {
   timestamp: number;
 }
 
-export type AppView = 'dashboard' | 'beta_dashboard' | 'projects' | 'contacts' | 'campaigns' | 'advisor' | 'tasks' | 'promotions' | 'automation' | 'calendar' | 'assets' | 'settings' | 'events' | 'social' | 'forms' | 'deals' | 'infographics' | 'files' | 'departments' | 'migration';
+export type AppView = 'dashboard' | 'beta_dashboard' | 'projects' | 'contacts' | 'campaigns' | 'advisor' | 'tasks' | 'promotions' | 'automation' | 'calendar' | 'assets' | 'settings' | 'events' | 'social' | 'forms' | 'deals' | 'infographics' | 'files' | 'departments' | 'migration' | 'ai_predictive' | 'ai_content' | 'ai_automation' | 'ai_query' | 'ai_competitive' | 'ai_clients' | 'ai_documents' | 'ai_reporting' | 'ai_training' | 'ai_agents' | 'ai_hub';
 
 export interface FeatureFlag {
   id: string;

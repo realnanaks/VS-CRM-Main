@@ -179,6 +179,7 @@ const MOCK_USERS = [
     { id: 'u3', name: 'Yaw Mensah', email: 'yaw@echohouse.com', role: 'Department Lead', avatar: 'https://ui-avatars.com/api/?name=Yaw+Mensah&background=f59e0b&color=fff', assignedCountries: ['GH'], assignedDepartments: ['creative'], password: 'password123', hasCompletedOnboarding: true },
     { id: 'u4', name: 'Amina Diop', email: 'amina@echohouse.com', role: 'Department Lead', avatar: 'https://ui-avatars.com/api/?name=Amina+Diop&background=ec4899&color=fff', assignedCountries: ['CI'], assignedDepartments: ['digital'], password: 'password123', hasCompletedOnboarding: true },
     { id: 'u5', name: 'Thandi Mthembu', email: 'thandi@echohouse.com', role: 'Staff', avatar: 'https://ui-avatars.com/api/?name=Thandi+Mthembu&background=8b5cf6&color=fff', assignedCountries: ['ZA'], assignedDepartments: ['finance_ops'], password: 'password123', hasCompletedOnboarding: true },
+    { id: 'u5', name: 'Kofi Agyekum', email: 'kofi@echohouse.com', role: 'Operations Director', avatar: 'https://ui-avatars.com/api/?name=Thandi+Mthembu&background=8b5cf6&color=fff', assignedCountries: ['Global', 'GH', 'NG', 'CI', 'ZA', 'BJ', 'TG'], assignedDepartments: ['creative', 'media', 'strategy', 'digital', 'production', 'client_services', 'data_analytics', 'finance_ops'], password: 'echohouse', hasCompletedOnboarding: true },
 ];
 
 const MOCK_LOGS = [

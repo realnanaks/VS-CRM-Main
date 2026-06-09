@@ -104,6 +104,17 @@ const connectToDrive = async () => {
 // Initialize Drive connection
 connectToDrive();
 
+// Load folder mapping
+try {
+    const folderMapping = require('./drive-folder-mapping.json');
+    const { updateFolderStructure } = require('./drivePermissions');
+    updateFolderStructure(folderMapping);
+    console.log('✅ Folder structure loaded');
+} catch (error) {
+    console.error('Failed to load drive-folder-mapping.json:', error.message);
+}
+
+
 // File Uploads - Define multer before using it
 const multer = require('multer');
 
